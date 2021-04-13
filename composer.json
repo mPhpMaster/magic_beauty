@@ -1,0 +1,95 @@
+{
+    "name": "laravel/laravel",
+    "type": "project",
+    "description": "The Laravel Framework.",
+    "keywords": ["framework", "laravel"],
+    "license": "MIT",
+    "require": {
+        "php": "^7.4|^8.0",
+        "fideloper/proxy": "^4.4",
+        "fruitcake/laravel-cors": "^2.0",
+        "guzzlehttp/guzzle": "^7.0.1",
+        "laravel/framework": "^8.12",
+        "laravel/helpers": "^1.4",
+        "laravel/sanctum": "^2.9",
+        "laravel/tinker": "^2.5",
+        "spatie/laravel-permission": "^4.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-ide-helper": "^2.10",
+        "facade/ignition": "^2.5",
+        "fakerphp/faker": "^1.9.1",
+        "laravel/sail": "^1.0.1",
+        "laravel/ui": "^3.2",
+        "mockery/mockery": "^1.4.2",
+        "nunomaduro/collision": "^5.0",
+        "phpunit/phpunit": "^9.3.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        },
+        "files": [
+            "app/Helpers/global.php",
+            "app/Helpers/status.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "composer helpers"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi"
+        ],
+        "post-update-cmd": [
+            "Illuminate\\Foundation\\ComposerScripts::postUpdate",
+            "composer helpers"
+        ],
+        "new": [
+            "@php -r \"define('FILE', '.env'); if(@file_exists(FILE)==false) { @copy(FILE . '.example', FILE); echo('php artisan key:generate --ansi'); }\" | sh",
+            "@php artisan s -t",
+            "composer c:c",
+            "composer dumpautoload"
+        ],
+        "helpers": [
+            "echo off",
+            "@php -r \"define('FILE', '.phpstorm.meta.php'); @file_exists(FILE) && print('  ---------- ' . FILE . ' Exists' . PHP_EOL);\"",
+            "@php -r \"define('FILE', '_ide_helper.php'); @file_exists(FILE) && print('  ---------- ' . FILE . ' Exists' . PHP_EOL);\"",
+            "@php -r \"define('FILE', '_ide_helper_models.php'); @file_exists(FILE) && print('  ---------- ' . FILE . ' Exists' . PHP_EOL);\"",
+            "@php artisan ide-helper:generate",
+            "@php artisan ide-helper:meta",
+            "@php artisan ide-helper:model -N --dir=app --dir=app/*.php --dir=app/*/*.php --dir=app/*/*/*.php --dir=app/*/*/*.php",
+            "@php artisan ide-helper:eloquent"
+        ],
+        "c:c": [
+            "@php artisan cache:clear",
+            "@php artisan route:clear",
+            "@php artisan config:clear",
+            "@php artisan view:clear"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
