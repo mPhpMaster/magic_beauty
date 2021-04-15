@@ -8,30 +8,65 @@
     <file url="file://$PROJECT_DIR$/app/Exceptions/Handler.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Helpers/global.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Helpers/status.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/DoctorController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/LoginController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PatientController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PharmacistController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PrescriptionController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Kernel.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/DoctorResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/LoginResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/LogoutResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/PatientResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/PharmacistResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/PrescriptionProductResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/PrescriptionResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/ProductResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/UserResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Interfaces/IRoleConst.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Branch.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Category.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Model.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Patient.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Prescription.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Models/Product.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/Role.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/User.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Traits/TBelongsToUser.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/THasRole.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Traits/THasScopeBy.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Traits/THasStatus.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/THasUsersStatus.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/composer.json" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/app.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/cors.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/config/permission.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/factories/BranchFactory.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/factories/CategoryFactory.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/factories/PrescriptionFactory.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/factories/ProductFactory.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/factories/UserFactory.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/migrations/2014_10_12_000000_create_users_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/migrations/2014_10_12_100000_create_password_resets_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_04_15_190250_create_branches_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_04_15_190251_create_categories_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_04_15_194314_create_products_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_04_15_194315_create_prescriptions_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_04_15_194316_create_product_prescription_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/BranchSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/CategorySeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/CreateAdminSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/CreateDoctorSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/CreatePatientSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/CreatePharmacistSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/DatabaseSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/PrescriptionSeeder.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/seeders/ProductSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/RolesAndPermissionsSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/js/bootstrap.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/lang/en/statuses.php" charset="UTF-8" />

@@ -8,5 +8,6 @@ interface IRoleConst
         SUPPORT_ROLE = "Support",
         ADMINISTRATOR_ROLE = "Administrator",
         PHARMACIST_ROLE = "Pharmacist",
-        DOCTOR_ROLE = "Doctor";
+        DOCTOR_ROLE = "Doctor",
+        PATIENT_ROLE = "Patient";
 }

@@ -15,6 +15,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
         $this->call(CreateAdminSeeder::class);
+        $this->call(CreateDoctorSeeder::class);
+        $this->call(CreatePharmacistSeeder::class);
+        $this->call(CreatePatientSeeder::class);
+
+        $this->call(BranchSeeder::class);
+        $this->call(CategorySeeder::class);
+        $this->call(ProductSeeder::class);
+        $this->call(PrescriptionSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }

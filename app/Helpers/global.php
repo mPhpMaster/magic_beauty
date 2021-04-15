@@ -48,3 +48,20 @@ if ( !function_exists('apiJsonResource') ) {
         ]);
     }
 }
+
+if ( !function_exists('parseMobile') ) {
+    /**
+     * @param $mobile
+     *
+     * @return string|int|null
+     */
+    function parseMobile($mobile)
+    {
+        $mobile = preg_replace("[\D]", "", $mobile);
+        if(starts_with($mobile, "00")) {
+            $mobile = substr($mobile, 2);
+        }
+
+        return $mobile;
+    }
+}

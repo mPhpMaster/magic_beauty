@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Models\Branch;
+use App\Models\Prescription;
+use App\Models\Product;
+use App\Models\User;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Http\Request;
@@ -47,6 +51,14 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
         });
+
+        Route::model('user', User::class);
+        Route::model('doctor', User::class);
+        Route::model('pharmacist', User::class);
+        Route::model('pharmacist', User::class);
+        Route::model('prescription', Prescription::class);
+        Route::model('branch', Branch::class);
+        Route::model('product', Product::class);
     }
 
     /**

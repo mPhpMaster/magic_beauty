@@ -40,12 +40,14 @@ class RolesAndPermissionsSeeder extends Seeder
         $role_administrator = Role::firstOrCreate(['name' => IRoleConst::ADMINISTRATOR_ROLE]);
         $role_pharmacist = Role::firstOrCreate(['name' => IRoleConst::PHARMACIST_ROLE]);
         $role_doctor = Role::firstOrCreate(['name' => IRoleConst::DOCTOR_ROLE]);
+        $role_patient = Role::firstOrCreate(['name' => IRoleConst::PATIENT_ROLE]);
 
         $all_permissions = Permission::all();
         $role_support->givePermissionTo($all_permissions);
         $role_administrator->givePermissionTo($all_permissions);
         $role_pharmacist->givePermissionTo($permissions_cats->only(['prescriptions'])->flatten(1)->toArray());
         $role_doctor->givePermissionTo($permissions_cats->only(['prescriptions'])->flatten(1)->toArray());
+        $role_patient->givePermissionTo($permissions_cats->only(['prescriptions.index', 'prescriptions.show', 'categories.index', 'categories.show', 'products.index', 'products.show'])->flatten(1)->toArray());
 
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 
