@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Interfaces\IRoleConst;
+use App\Traits\THasByName;
 use App\Traits\THasRole;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
@@ -25,6 +26,7 @@ class User extends Authenticatable
     use THasRole;
     use THasStatus;
     use THasScopeBy;
+    use THasByName;
 
     /**
      * The attributes that are mass assignable.
@@ -99,6 +101,20 @@ class User extends Authenticatable
     public function scopeByMobile(\Illuminate\Database\Eloquent\Builder $query, $value)
     {
         return $query->whereIn('mobile', collect((array)$value)->map(fn($v) => parseMobile($v))->toArray());
+    }
+
+    /**
+     * Scope the model query to certain mobiles only.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string|array                          $value
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByNameOrMobile(\Illuminate\Database\Eloquent\Builder $query, $value)
+    {
+        return $query->whereIn('mobile', collect((array)$value)->map(fn($v) => parseMobile($v))->toArray())
+            ->orWhereIn('name', (array)$value);
     }
 
     /**

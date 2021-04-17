@@ -230,6 +230,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User byActive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User byInactive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User byMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User byName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User byNameOrMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User byStatus($value, $type = null)
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()

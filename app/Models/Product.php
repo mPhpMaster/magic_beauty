@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\TBelongsToBranch;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,6 +17,7 @@ class Product extends Model
 
     use HasFactory;
     use THasStatus, THasScopeBy;
+    use TBelongsToBranch;
 
     protected $fillable = [
         "category_id",
@@ -41,11 +43,6 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
-    }
-
     public function prescriptions()
     {
         return $this->belongsToMany(Prescription::class, 'product_prescription');
@@ -54,10 +51,5 @@ class Product extends Model
     public function getCategoryNameAttribute()
     {
         return ($c = $this->category) ? $c->name : "";
-    }
-
-    public function getBranchNameAttribute()
-    {
-        return ($c = $this->branch) ? $c->name : "";
     }
 }

@@ -15,7 +15,7 @@ class DoctorController extends Controller
     public function index(Request $request): JsonResource
     {
         $users = User::onlyDoctors();
-        if( $status = $request->get('status') ) {
+        if ( $status = $request->get('status') ) {
             $users->byStatus(User::getStatusId($status)->first());
         }
         return DoctorResource::collection($users->get());
@@ -71,5 +71,26 @@ class DoctorController extends Controller
         }
 
         return apiJsonResource($user, DoctorResource::class, true);
+    }
+
+    public function search_for_doctor(Request $request): JsonResource
+    {
+        $data = $request->validate([
+            'keyword' => ['required'],
+        ]);
+        $results = User::onlyDoctors()
+            ->byActive()
+            ->where(function ($q) use($data) {
+                $q->where('name', 'like', "%{$data['keyword']}%");
+
+                if ( $mobile = parseMobile($data['keyword']) ) {
+                    $q->orWhere('mobile', 'like', "%{$mobile}%");
+                }
+            })
+            ->get();
+
+        return DoctorResource::collection($results)->additional([
+            "success" => true,
+        ]);
     }
 }

@@ -2,11 +2,17 @@
 
 namespace App\Models;
 
+use App\Traits\TBelongsToBranch;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Category
+ *
+ * @package App\Models
+ */
 class Category extends Model
 {
     /**
@@ -16,6 +22,7 @@ class Category extends Model
 
     use HasFactory;
     use THasStatus, THasScopeBy;
+    use TBelongsToBranch;
 
     protected $fillable = [
         "category_id",
@@ -37,11 +44,6 @@ class Category extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
-    }
-
-    public function branch()
-    {
-        return $this->belongsTo(Branch::class);
     }
 
     public function categories()

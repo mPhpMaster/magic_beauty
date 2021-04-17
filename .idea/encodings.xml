@@ -13,6 +13,7 @@
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PatientController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PharmacistController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/PrescriptionController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/ProductController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/UserController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" charset="UTF-8" />
@@ -37,7 +38,9 @@
     <file url="file://$PROJECT_DIR$/app/Models/User.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/AuthServiceProvider.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Providers/RouteServiceProvider.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Traits/TBelongsToBranch.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/TBelongsToUser.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Traits/THasByName.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/THasRole.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/THasScopeBy.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Traits/THasStatus.php" charset="UTF-8" />

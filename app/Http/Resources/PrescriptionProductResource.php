@@ -30,7 +30,7 @@ class PrescriptionProductResource extends JsonResource
             "name" => $model->name,
             "description" => $model->description,
             "price" => $model->price,
-            "qty" => $this->pivot->qty,
+            "qty" => $model->pivot->qty,
         ];
     }
 }

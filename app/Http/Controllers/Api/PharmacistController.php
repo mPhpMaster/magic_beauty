@@ -72,4 +72,25 @@ class PharmacistController extends Controller
 
         return apiJsonResource($user, PharmacistResource::class, true);
     }
+
+    public function search_for_pharmacist(Request $request): JsonResource
+    {
+        $data = $request->validate([
+            'keyword' => ['required'],
+        ]);
+        $results = User::onlyPharmacists()
+            ->byActive()
+            ->where(function ($q) use($data) {
+                $q->where('name', 'like', "%{$data['keyword']}%");
+
+                if ( $mobile = parseMobile($data['keyword']) ) {
+                    $q->orWhere('mobile', 'like', "%{$mobile}%");
+                }
+            })
+            ->get();
+
+        return PharmacistResource::collection($results)->additional([
+            "success" => true,
+        ]);
+    }
 }
