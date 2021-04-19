@@ -6,7 +6,7 @@ use App\Http\Controllers\Api\PharmacistController;
 use App\Http\Controllers\Api\PrescriptionController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\UserController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -32,6 +32,8 @@ Route::group([
     });
 
     Route::post('product/search', [ProductController::class, 'search_for_product']);
+    // tmp link
+    Route::get('ten_products', [ProductController::class, 'show_ten_products']);
 
     Route::post('doctor/search', [DoctorController::class, 'search_for_doctor']);
     Route::apiResource('doctor', DoctorController::class);
@@ -49,6 +51,17 @@ Route::group([
 
     Route::get('refresh-token', [LoginController::class, 'refreshToken']);
     Route::get('logout', [LoginController::class, 'logout']);
+
+
+    Route::group([
+        'prefix' => 'notifications',
+    ], function () {
+        Route::get('list', [NotificationController::class,'index']);
+        Route::get('unread_count', [NotificationController::class, 'unread_count']);
+        Route::get('{my_notification}/mark-as-read', [NotificationController::class, 'mark_as_read']);
+        Route::delete('{my_notification}/destroy', [NotificationController::class,'destroy']);
+    });
+
 });
 
 Route::post('/login', [LoginController::class, 'login']);

@@ -59,6 +59,11 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('prescription', Prescription::class);
         Route::model('branch', Branch::class);
         Route::model('product', Product::class);
+        Route::bind('my_notification', function ($id) {
+            return auth()->user()->notifications()->whereKey($id)->firstOrFail();
+        });
+        Route::model('notification', \Illuminate\Notifications\DatabaseNotification::class);
+
     }
 
     /**

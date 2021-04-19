@@ -10,6 +10,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class ProductController extends Controller
 {
+    public function show_ten_products(Request $request): JsonResource
+    {
+        return ProductResource::collection(Product::byActive()->limit(10)->get())->additional([
+            "success" => true,
+        ]);
+    }
+
     public function index(Request $request): JsonResource
     {
         $model = Product::query();

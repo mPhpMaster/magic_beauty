@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Notifications\PrescriptionCreated;
+use App\Notifications\PrescriptionFinished;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +42,12 @@ class Prescription extends Model
                 $model->doctor_id = auth()->id();
             }
             $model->status = static::getStatusId($model->status ?: 'pending')->first();
+        });
+
+        static::created(function (Prescription $model) {
+            if ( $pharmacist = $model->pharmacist ) {
+                $pharmacist->notify(new PrescriptionCreated(__("Prescription Created"),__("Prescription created please make action")));
+            }
         });
     }
 
@@ -113,12 +121,20 @@ class Prescription extends Model
 
     public function setAsCanceled(): bool
     {
-        return $this->setStatus('canceled')->save();
+        $result = $this->setStatus('canceled')->save();
+        if($doctor = $this->doctor) {
+            $doctor->notify(new PrescriptionFinished(__('Prescription canceled'), __('Prescription canceled')));
+        }
+        return $result;
     }
 
     public function setAsFinished(): bool
     {
-        return $this->setStatus('finished')->save();
+        $result = $this->setStatus('finished')->save();
+        if($doctor = $this->doctor) {
+            $doctor->notify(new PrescriptionFinished(__('Prescription finished'), __('Prescription finished')));
+        }
+        return $result;
     }
 
     public function scopeByPending(\Illuminate\Database\Eloquent\Builder $query, ?string $type = null): \Illuminate\Database\Eloquent\Builder
