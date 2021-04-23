@@ -34,6 +34,9 @@ Route::group([
     Route::post('product/search', [ProductController::class, 'search_for_product']);
     // tmp link
     Route::get('ten_products', [ProductController::class, 'show_ten_products']);
+   
+    Route::get('product_template_excel', [ProductController::class, 'product_template_excel']);
+    Route::post('product_import_excel', [ProductController::class, 'product_import_excel']);
 
     Route::post('doctor/search', [DoctorController::class, 'search_for_doctor']);
     Route::apiResource('doctor', DoctorController::class);

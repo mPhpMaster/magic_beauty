@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exports\ProductsExport;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ProductResource;
+use App\Imports\ProductsImport;
 use App\Models\Product;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -59,5 +62,20 @@ class ProductController extends Controller
         return ProductResource::collection($results->get())->additional([
             "success" => true,
         ]);
+    }
+
+    public function product_template_excel(){
+        $path = '/storage/productsTemplate.xlsx';
+         Excel::store(new ProductsExport(),$path);
+         return url($path);
+
+    }
+
+
+    public function product_import_excel(Request $request){
+         $request->validate([
+            'excel' => ['required'],
+        ]);
+        Excel::import(new ProductsImport($request->user()->id), request()->file('excel'));   
     }
 }
