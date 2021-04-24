@@ -73,6 +73,9 @@ class User extends Authenticatable
                 $user->created_by = ($creator = auth()->user()) ? $creator->id : null;
             }
         });
+        static::deleting(function (User $user) {
+            User::ByAnyUser($user->id)->delete();
+        });
     }
 
     public function isPatient(User $user = null): bool

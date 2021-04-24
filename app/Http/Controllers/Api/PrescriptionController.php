@@ -52,6 +52,7 @@ class PrescriptionController extends Controller
         if ( $status = $request->get('status') ) {
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
+//        dd(/*$prescriptions->get(),*/ $request->user(),$request->user()->id);
         return PrescriptionResource::collection($prescriptions->get());
     }
 
