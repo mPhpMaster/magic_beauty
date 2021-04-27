@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
@@ -32,9 +33,9 @@ class NotificationResource extends JsonResource
             "title" => data_get($data, 'title'),
             "description" => data_get($data, 'description'),
             "prescription_id" => data_get($data, 'prescription_id'),
-            "date" => $model->created_at,//->format(""),
+            "date" => $model->created_at->format("Y-m-d h:i a"),
             "is_read" => $model->read(),
-            "read_at" => $model->read_at,//carbon()->parse($model->read_at)->format(""),
+            "read_at" => Carbon::parse($model->read_at)->format("Y-m-d h:i a"),
         ];
     }
 }
