@@ -30,11 +30,10 @@ Route::group([
         Route::get('profile', [UserController::class, 'show']);
         Route::put('profile', [UserController::class, 'update']);
     });
-
     Route::post('product/search', [ProductController::class, 'search_for_product']);
     // tmp link
     Route::get('ten_products', [ProductController::class, 'show_ten_products']);
-   
+
     Route::get('product_template_excel', [ProductController::class, 'product_template_excel']);
     Route::post('product_import_excel', [ProductController::class, 'product_import_excel']);
 
@@ -59,6 +58,9 @@ Route::group([
     Route::group([
         'prefix' => 'notifications',
     ], function () {
+        Route::post('save-token', [NotificationController::class, 'saveToken'])->name('save-token');
+//        Route::post('send-notification', [NotificationController::class, 'sendNotification'])->name('send.notification');
+
         Route::get('list', [NotificationController::class,'index']);
         Route::get('unread_count', [NotificationController::class, 'unread_count']);
         Route::get('{my_notification}/mark-as-read', [NotificationController::class, 'mark_as_read']);

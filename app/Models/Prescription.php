@@ -46,7 +46,7 @@ class Prescription extends Model
 
         static::created(function (Prescription $model) {
             if ( $pharmacist = $model->pharmacist ) {
-                $pharmacist->notify(new PrescriptionCreated(__("Prescription Created"),__("Prescription created please make action")));
+                $pharmacist->notify(new PrescriptionCreated($model,__("Prescription Created"),__("Prescription created please make action")));
             }
         });
     }
@@ -123,7 +123,7 @@ class Prescription extends Model
     {
         $result = $this->setStatus('canceled')->save();
         if($doctor = $this->doctor) {
-            $doctor->notify(new PrescriptionFinished(__('Prescription canceled'), __('Prescription canceled')));
+            $doctor->notify(new PrescriptionFinished($this,__('Prescription canceled'), __('Prescription canceled')));
         }
         return $result;
     }
@@ -132,7 +132,7 @@ class Prescription extends Model
     {
         $result = $this->setStatus('finished')->save();
         if($doctor = $this->doctor) {
-            $doctor->notify(new PrescriptionFinished(__('Prescription finished'), __('Prescription finished')));
+            $doctor->notify(new PrescriptionFinished($this,__('Prescription finished'), __('Prescription finished')));
         }
         return $result;
     }
@@ -196,6 +196,48 @@ class Prescription extends Model
         return $query->whereIn('doctor_id', (array)$id)
             ->orWhereIn('pharmacist_id', (array)$id)
             ->orWhereIn('patient_id', (array)$id);
+    }
+
+
+    /**
+     * @param \App\Models\Prescription $prescription
+     *
+     * @return mixed
+     */
+    public function sendFirebase($title, $body)
+    {
+        $firebaseToken = $this->only(['device_token']);
+
+        $SERVER_API_KEY = config('firebase.api_key');
+
+        $data = [
+            "registration_ids" => $firebaseToken,
+            "notification" => [
+                "title" => $title,
+                "body" => $body,
+            ]
+        ];
+        $dataString = json_encode($data);
+
+        $headers = [
+            'Authorization: key=' . $SERVER_API_KEY,
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init();
+
+        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        /** @noinspection CurlSslServerSpoofingInspection */
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
+
+        $response = curl_exec($ch);
+
+//        dd($response);
+        return $response;
     }
 
 }

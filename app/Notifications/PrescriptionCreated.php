@@ -2,8 +2,10 @@
 
 namespace App\Notifications;
 
+use App\Models\Prescription;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Http\Request;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
@@ -13,17 +15,25 @@ class PrescriptionCreated extends Notification implements ShouldQueue
 
     protected $title;
     protected $description;
+    /**
+     * @var \App\Models\Prescription
+     */
+    protected Prescription $prescription;
 
     /**
      * Create a new notification instance.
      *
-     * @return void
+     * @param \App\Models\Prescription $prescription
+     * @param                          $title
+     * @param                          $description
      */
-    public function __construct($title, $description)
+    public function __construct(Prescription $prescription, $title, $description)
     {
         //
         $this->title = $title;
         $this->description = $description;
+        $this->prescription = $prescription;
+        $this->prescription->sendFirebase($this->title, $this->description);
     }
 
     /**

@@ -40,6 +40,7 @@ class User extends Authenticatable
         'password',
         'status',
         'created_by',
+        'device_token',
     ];
 
     /**
