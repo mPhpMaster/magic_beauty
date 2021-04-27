@@ -31,6 +31,7 @@ class NotificationResource extends JsonResource
             "user" => $user ? $user->name : null,
             "title" => data_get($data, 'title'),
             "description" => data_get($data, 'description'),
+            "prescription_id" => data_get($data, 'prescription_id'),
             "date" => $model->created_at,//->format(""),
             "is_read" => $model->read(),
             "read_at" => $model->read_at,//carbon()->parse($model->read_at)->format(""),

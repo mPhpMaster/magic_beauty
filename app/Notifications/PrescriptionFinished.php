@@ -58,6 +58,7 @@ class PrescriptionFinished extends Notification implements ShouldQueue
         return [
             'title' => $this->title,
             'description' => $this->description,
+            'prescription_id' => $this->prescription->id,
         ];
     }
 }
