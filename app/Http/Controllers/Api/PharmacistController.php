@@ -18,7 +18,7 @@ class PharmacistController extends Controller
         if( $status = $request->get('status') ) {
             $users->byStatus(User::getStatusId($status)->first());
         }
-        return PharmacistResource::collection($users->get());
+        return PharmacistResource::collection($users->latest()->get());
     }
 
     public function show(Request $request, User $user): JsonResource
@@ -87,6 +87,7 @@ class PharmacistController extends Controller
                     $q->orWhere('mobile', 'like', "%{$mobile}%");
                 }
             })
+            ->latest()
             ->get();
 
         return PharmacistResource::collection($results)->additional([

@@ -18,7 +18,7 @@ class DoctorController extends Controller
         if ( $status = $request->get('status') ) {
             $users->byStatus(User::getStatusId($status)->first());
         }
-        return DoctorResource::collection($users->get());
+        return DoctorResource::collection($users->latest()->get());
     }
 
     public function show(Request $request, User $user): JsonResource
@@ -87,6 +87,7 @@ class DoctorController extends Controller
                     $q->orWhere('mobile', 'like', "%{$mobile}%");
                 }
             })
+            ->latest()
             ->get();
 
         return DoctorResource::collection($results)->additional([

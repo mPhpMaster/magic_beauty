@@ -35,7 +35,7 @@ class NotificationResource extends JsonResource
             "prescription_id" => data_get($data, 'prescription_id'),
             "date" => $model->created_at->format("Y-m-d h:i a"),
             "is_read" => $model->read(),
-            "read_at" => Carbon::parse($model->read_at)->format("Y-m-d h:i a"),
+            "read_at" => $model->read_at ? Carbon::parse($model->read_at)->format("Y-m-d h:i a") : null,
         ];
     }
 }

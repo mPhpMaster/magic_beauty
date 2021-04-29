@@ -18,7 +18,7 @@ class PatientController extends Controller
         if( $status = $request->get('status') ) {
             $users->byStatus(User::getStatusId($status)->first());
         }
-        return PatientResource::collection($users->get());
+        return PatientResource::collection($users->latest()->get());
     }
 
     public function show(Request $request, User $user): JsonResource

@@ -25,7 +25,7 @@ class PrescriptionController extends Controller
         if ( $status = $request->get('status') ) {
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
-        return PrescriptionResource::collection($prescriptions->get());
+        return PrescriptionResource::collection($prescriptions->latest()->get());
     }
 
     public function patient_index(Request $request): JsonResource
@@ -34,7 +34,7 @@ class PrescriptionController extends Controller
         if ( $status = $request->get('status') ) {
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
-        return PrescriptionResource::collection($prescriptions->get());
+        return PrescriptionResource::collection($prescriptions->latest()->get());
     }
 
     public function pharmacist_index(Request $request): JsonResource
@@ -43,7 +43,7 @@ class PrescriptionController extends Controller
         if ( $status = $request->get('status') ) {
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
-        return PrescriptionResource::collection($prescriptions->get());
+        return PrescriptionResource::collection($prescriptions->latest()->get());
     }
 
     public function doctor_index(Request $request): JsonResource
@@ -53,7 +53,7 @@ class PrescriptionController extends Controller
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
 //        dd(/*$prescriptions->get(),*/ $request->user(),$request->user()->id);
-        return PrescriptionResource::collection($prescriptions->get());
+        return PrescriptionResource::collection($prescriptions->latest()->get());
     }
 
     public function show(Request $request, Prescription $model): JsonResource
@@ -79,7 +79,7 @@ class PrescriptionController extends Controller
             'status' => ['nullable', 'string', 'in:' . Prescription::getStatusId()->implode(',')],
             'products' => ['required', 'array'],
             'products.*.product_id' => ['required', 'integer', 'exists:products,id'],
-            'products.*.qty' => ['required', 'numeric'],
+            'products.*.qty' => ['required', 'numeric', 'min:1'],
         ]);
         $data['doctor_id'] = $request->user()->id;
         $products = array_pull($data, 'products');
@@ -97,7 +97,7 @@ class PrescriptionController extends Controller
             'status' => ['nullable', 'string', 'in:' . Prescription::getStatusId()->implode(',')],
             'products' => ['required', 'array'],
             'products.*.product_id' => ['required', 'integer', 'exists:products,id'],
-            'products.*.qty' => ['required', 'numeric'],
+            'products.*.qty' => ['required', 'numeric', 'min:1'],
         ]);
         $data['doctor_id'] = $request->user()->id;
         $products = array_pull($data, 'products');
@@ -135,7 +135,7 @@ class PrescriptionController extends Controller
             'status' => ['nullable', 'string', 'in:' . Prescription::getStatusId()->implode(',')],
             'products' => ['nullable', 'array'],
             'products.*.product_id' => ['nullable', 'integer', 'exists:products,id'],
-            'products.*.qty' => ['nullable', 'numeric'],
+            'products.*.qty' => ['nullable', 'numeric', 'min:1'],
         ]);
         $products = array_pull($data, 'products');
 

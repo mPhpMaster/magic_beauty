@@ -15,7 +15,7 @@ class ProductController extends Controller
 {
     public function show_ten_products(Request $request): JsonResource
     {
-        return ProductResource::collection(Product::byActive()->limit(10)->get())->additional([
+        return ProductResource::collection(Product::byActive()->limit(10)->latest()->get())->additional([
             "success" => true,
         ]);
     }
@@ -26,7 +26,7 @@ class ProductController extends Controller
         if ( $status = $request->get('status') ) {
             $model->byStatus(Product::getStatusId($status)->first());
         }
-        return ProductResource::collection($model->get());
+        return ProductResource::collection($model->latest()->get());
     }
 
     public function show(Request $request, Product $model): JsonResource
@@ -59,7 +59,7 @@ class ProductController extends Controller
             $results = $results->byBranch($data['branch_id']);
         }
 
-        return ProductResource::collection($results->get())->additional([
+        return ProductResource::collection($results->latest()->get())->additional([
             "success" => true,
         ]);
     }
@@ -76,6 +76,6 @@ class ProductController extends Controller
          $request->validate([
             'excel' => ['required'],
         ]);
-        Excel::import(new ProductsImport($request->user()->id), request()->file('excel'));   
+        Excel::import(new ProductsImport($request->user()->id), request()->file('excel'));
     }
 }
