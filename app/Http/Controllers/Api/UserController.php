@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DeviceTokenResource;
 use App\Http\Resources\UserResource;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
@@ -14,6 +16,10 @@ class UserController extends Controller
     public function show(Request $request): JsonResource
     {
         return apiJsonResource($request->user(), UserResource::class, true);
+    }
+    public function getDeviceToken(Request $request, User $user): JsonResource
+    {
+        return apiJsonResource($user, DeviceTokenResource::class, true);
     }
 
     public function update(Request $request): JsonResource

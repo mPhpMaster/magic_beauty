@@ -29,6 +29,7 @@ Route::group([
     ], function () {
         Route::get('profile', [UserController::class, 'show']);
         Route::put('profile', [UserController::class, 'update']);
+        Route::get('device_token/{user}', [UserController::class, 'getDeviceToken']);
     });
     Route::post('product/search', [ProductController::class, 'search_for_product']);
     // tmp link

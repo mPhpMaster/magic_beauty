@@ -5,11 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class UserResource
+ * Class DeviceTokenResource
  *
  * @package App\Http\Resources
  */
-class UserResource extends JsonResource
+class DeviceTokenResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -24,14 +24,7 @@ class UserResource extends JsonResource
         $model = $this->resource;
 
         return [
-            "id" => $model->id,
-            "name" => $model->name,
-            "role" => $model->role_name,
-//            "role" => $model->roles()->first()->name,
-            "email" => $model->email,
-            "mobile" => $model->mobile,
             "device_token" => $model->device_token,
-            "status" => $model->status_text,
         ];
     }
 }
