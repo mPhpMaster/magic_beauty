@@ -99,6 +99,7 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $doctor
  * @property-read mixed $doctor_name
+ * @property-read mixed $patient_mobile
  * @property-read mixed $patient_name
  * @property-read mixed $pharmacist_name
  * @property-read mixed $status_text
@@ -219,6 +220,7 @@ namespace App\Models{
  * @property string|null $remember_token
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property string|null $device_token
  * @property-read User|null $creator
  * @property-read string $role_name
  * @property-read mixed $status_text
@@ -250,6 +252,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User role($roles, $guard = null)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereCreatedBy($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereDeviceToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmail($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereEmailVerifiedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)

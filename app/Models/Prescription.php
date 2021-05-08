@@ -100,6 +100,11 @@ class Prescription extends Model
         return ($d = $this->patient) ? $d->name : "";
     }
 
+    public function getPatientMobileAttribute()
+    {
+        return ($d = $this->patient) ? $d->mobile : "";
+    }
+
     /**
      * @return bool
      */
