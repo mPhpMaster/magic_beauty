@@ -42,18 +42,20 @@ class ProductController extends Controller
     public function search_for_product(Request $request): JsonResource
     {
         $data = $request->validate([
-            'keyword' => ['required'],
+            'keyword' => ['nullable', 'string'],
             'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
         ]);
-
-        $results = Product::byActive()
-            ->where(function ($q) use($data) {
-                $q->where('name', 'like', "%{$data['keyword']}%");
+        $results = Product::byActive();
+        if( $data['keyword'] ) {
+            $results = $results
+                ->where(function ($q) use($data) {
+                    $q->where('name', 'like', "%{$data['keyword']}%");
 
 //                if ( $mobile = parseMobile($data['keyword']) ) {
 //                    $q->orWhere('mobile', 'like', "%{$mobile}%");
 //                }
-            });
+                });
+        }
 
         if( isset($data['branch_id']) ) {
             $results = $results->byBranch($data['branch_id']);
