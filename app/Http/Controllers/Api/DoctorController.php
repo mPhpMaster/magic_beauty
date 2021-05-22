@@ -4,11 +4,14 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
+use App\Imports\DoctorsImport;
+use App\Imports\ProductsImport;
 use App\Interfaces\IRoleConst;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DoctorController extends Controller
 {
@@ -93,5 +96,12 @@ class DoctorController extends Controller
         return DoctorResource::collection($results)->additional([
             "success" => true,
         ]);
+    }
+
+    public function doctor_import_excel(Request $request){
+        $request->validate([
+            'excel' => ['required'],
+        ]);
+        Excel::import(new DoctorsImport(), request()->file('excel'));
     }
 }

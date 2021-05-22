@@ -30,6 +30,7 @@
     <file url="file://$PROJECT_DIR$/app/Http/Resources/PrescriptionResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/ProductResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/UserResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Imports/DoctorsImport.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Interfaces/IRoleConst.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/Branch.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Models/Category.php" charset="UTF-8" />

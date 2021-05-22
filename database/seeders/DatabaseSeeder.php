@@ -2,7 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Imports\DoctorsImport;
 use Illuminate\Database\Seeder;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DatabaseSeeder extends Seeder
 {
@@ -15,7 +17,9 @@ class DatabaseSeeder extends Seeder
     {
         $this->call(RolesAndPermissionsSeeder::class);
         $this->call(CreateAdminSeeder::class);
-        $this->call(CreateDoctorSeeder::class);
+
+        Excel::import(new DoctorsImport(), base_path("doctors_template.xlsx"));
+//        $this->call(CreateDoctorSeeder::class);
         $this->call(CreatePharmacistSeeder::class);
         $this->call(CreatePatientSeeder::class);
 

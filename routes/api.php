@@ -38,6 +38,7 @@ Route::group([
     Route::get('product_template_excel', [ProductController::class, 'product_template_excel']);
     Route::post('product_import_excel', [ProductController::class, 'product_import_excel']);
 
+    Route::post('doctor_import_excel', [DoctorController::class, 'doctor_import_excel']);
     Route::post('doctor/search', [DoctorController::class, 'search_for_doctor']);
     Route::apiResource('doctor', DoctorController::class);
 
