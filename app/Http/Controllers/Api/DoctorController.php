@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DoctorResource;
 use App\Imports\DoctorsImport;
-use App\Imports\ProductsImport;
 use App\Interfaces\IRoleConst;
 use App\Models\User;
 use Illuminate\Http\Request;
