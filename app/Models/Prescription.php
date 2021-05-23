@@ -76,6 +76,8 @@ class Prescription extends Model
      */
     public function assignProducts($ids, $detaching = true)
     {
+        // fix: duplicate when update products
+        $this->products()->sync([]);
         $this->products()->sync($ids, $detaching);
         return $this;
     }
