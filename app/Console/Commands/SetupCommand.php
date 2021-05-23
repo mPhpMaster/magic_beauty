@@ -8,8 +8,6 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Spatie\Permission\Models\Permission;
-use App\Models\Role;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -40,8 +38,10 @@ class SetupCommand extends Command
             's'
         ]);
         parent::__construct();
-        $this->addOption("truncate", 't', InputOption::VALUE_NONE,'Truncate Tables.',null);
-        $this->addOption("fresh", 'f', InputOption::VALUE_NONE,'Fresh Migration.',null);
+        $this->addOption("truncate", 't', InputOption::VALUE_NONE, 'Truncate Tables.', null);
+        $this->addOption("fresh", 'f', InputOption::VALUE_NONE, 'Fresh Migration.', null);
+        $this->addOption("clear-media", 'c', InputOption::VALUE_NONE, 'Clear Media Files.', null);
+        $this->addOption("clear-media-only", 'm', InputOption::VALUE_NONE, 'Clear Media Files Only.', null);
     }
 
     /**
@@ -53,8 +53,23 @@ class SetupCommand extends Command
     {
         $tableNames = config('permission.table_names');
         $fresh = $this->option('fresh');
+        $clear_media = $this->option('clear-media');
+        $clear_media_only = $this->option('clear-media-only');
 
-        if( !$fresh && $this->option('truncate') ) {
+        if ( $clear_media ) {
+            $this->warn("Clearing media files ...");
+            $media_dir = \Storage::disk('media');
+            foreach ($media_dir->directories() as $directory) {
+                $this->comment("Deleting: {$directory} " . ($media_dir->deleteDirectory($directory) ? "DONE" : "FAIL"));
+            }
+            $this->info("Clearing media files Done");
+
+            if ( $clear_media_only ) {
+                return 0;
+            }
+        }
+
+        if ( !$fresh && $this->option('truncate') ) {
             $this->warn("Truncating tables ...");
             foreach ($tableNames as $tableNameIdx => $tableName) {
                 try {
@@ -66,7 +81,7 @@ class SetupCommand extends Command
                     $this->info("\t\tSUCCESS");
                 } catch (\Exception $exception) {
                     $this->error("\t\tFailed");
-                    if ($this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE) {
+                    if ( $this->getOutput()->getVerbosity() >= OutputInterface::VERBOSITY_VERBOSE ) {
                         dd($exception->getMessage());
                     }
 

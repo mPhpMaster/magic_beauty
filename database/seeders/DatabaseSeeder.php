@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Imports\DoctorsImport;
+use App\Imports\ProductsImport;
 use Illuminate\Database\Seeder;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -25,7 +26,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call(BranchSeeder::class);
         $this->call(CategorySeeder::class);
-        $this->call(ProductSeeder::class);
+        Excel::import(new ProductsImport(), base_path("product_template.xlsx"));
+//        $this->call(ProductSeeder::class);
         $this->call(PrescriptionSeeder::class);
         // \App\Models\User::factory(10)->create();
     }

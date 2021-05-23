@@ -30,6 +30,7 @@ class ProductResource extends JsonResource
             "name" => $model->name,
             "description" => $model->description,
             "price" => $model->price,
+            "image" => $model->image_url ?: "",
             "qty" => $model->qty,
             $this->mergeWhen($model->pivot, fn()=>['qty' => $model->pivot->qty]),
         ];

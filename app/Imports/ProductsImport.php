@@ -11,35 +11,50 @@ use Maatwebsite\Excel\Concerns\ToCollection;
 class ProductsImport implements ToCollection
 {
     protected $user_id;
-   
-    public function __construct($user_id)
+
+    public function __construct($user_id = 0)
     {
         $this->user_id = $user_id;
     }
+
     public function collection(Collection $rows)
     {
-        $branchId = Branch::where('user_id',$this->user_id)->first()->id;
-        $i=0;
-        foreach ($rows as $row) 
-        {
-            if($i >0){
-            $category = Category::where(['name' =>  $row[1]])->count();
-            if(!$category){
-               
-                $category = Category::create(['name'=>$row[1],'branch_id'=>$branchId,'category_id'=>0]);
+        $head = [
+            "name" => 0,
+            "category_name" => 1,
+            "description" => 2,
+            "price" => 3,
+            "quantity" => 4,
+            "name_ar" => 5,
+            "description_ar" => 6,
+            "category_name_ar" => 7,
+        ];
+
+        $branch = $this->user_id ? Branch::where('user_id', $this->user_id)->first() : Branch::first();
+        $branchId = $branch ? $branch->id : 0;
+
+        foreach ($rows as $index => $row) {
+            if ( trim($index) === "0" ) {
+                continue;
             }
-            
-            Product::create([
-                'category_id'=>$category->id,
-                'branch_id'=>$branchId,
-                'name' => $row[0],
-                'category_name'=> $row[1],
-                'description'=>$row[2],
-                'price'=>$row[3],
-                'quantity'=>$row[4]
-            ]);
+
+            $category = Category::firstOrCreate(['name' => trim($row[ $head["category_name"] ])], ['branch_id' => $branchId, 'category_id' => 0]);
+            try {
+                $product = Product::create([
+                    'category_id' => $category ? $category->id : 0,
+                    'branch_id' => $branchId,
+                    'name' => trim($row[ $head["name"] ]),
+                    'description' => trim($row[ $head["description"] ]),
+                    'price' => $row[ $head["price"] ],
+                    'qty' => $row[ $head["quantity"] ]
+                ]);
+
+                if ( file_exists($image_path = base_path("products_images/" . ($index + 1) . ".png")) ) {
+                    $product->addImage($image_path, true);
+                }
+            } catch (\Exception $exception) {
+                dd($exception);
             }
-            $i+=1;
         }
     }
 }

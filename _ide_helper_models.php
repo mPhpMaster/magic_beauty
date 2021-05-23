@@ -152,7 +152,11 @@ namespace App\Models{
  * @property-read \App\Models\Category $category
  * @property-read mixed $branch_name
  * @property-read mixed $category_name
+ * @property-read mixed $image
+ * @property-read mixed $image_url
  * @property-read mixed $status_text
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Prescription[] $prescriptions
  * @property-read int|null $prescriptions_count
  * @method static \Illuminate\Database\Eloquent\Builder|Product by(string $column, $value)
@@ -175,7 +179,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */
-	class Product extends \Eloquent {}
+	class Product extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
