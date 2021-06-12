@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\TBelongsToBranch;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
+use App\Traits\TImageAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
@@ -21,6 +22,7 @@ class Product extends Model implements HasMedia
     use HasFactory;
     use THasStatus, THasScopeBy;
     use TBelongsToBranch;
+    use TImageAttribute;
 
     protected $fillable = [
         "category_id",
@@ -54,37 +56,17 @@ class Product extends Model implements HasMedia
         return $this->belongsToMany(Prescription::class, 'product_prescription');
     }
 
-    public function getImageAttribute()
-    {
-        return $this->getFirstMedia();
-    }
-
-    public function getImageUrlAttribute()
-    {
-        return ($image = $this->image) ? $image->getFullUrl() : "";
-    }
-
     public function getCategoryNameAttribute()
     {
         return ($c = $this->category) ? $c->name : "";
     }
 
-    /**
-     * Add a file to the media library.
-     *
-     * @param string|\Symfony\Component\HttpFoundation\File\UploadedFile $file
-     *
-     * @return $this
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileDoesNotExist
-     * @throws \Spatie\MediaLibrary\MediaCollections\Exceptions\FileIsTooBig
-     */
-    public function addImage($file, $preserving_original = false)
+    public function changeQty(float $qty = 1): Product
     {
-        $media = $this->addMedia($file);
-        if ( $preserving_original ) {
-            $media = $media->preservingOriginal();
+        if ( ($this->qty = (float)$this->qty - $qty) < 0 ) {
+            $this->qty = 0;
         }
-        $media->toMediaCollection();
+        $this->save();
 
         return $this;
     }

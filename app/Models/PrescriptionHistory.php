@@ -2,14 +2,12 @@
 
 namespace App\Models;
 
-use App\Notifications\PrescriptionCreated;
-use App\Notifications\PrescriptionFinished;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Prescription extends Model
+class PrescriptionHistory extends Model
 {
     /**
      * Status type
@@ -26,6 +24,7 @@ class Prescription extends Model
      * @var string[]
      */
     protected $fillable = [
+        "prescription_id",
         "doctor_id",
         "pharmacist_id",
         "patient_id",
@@ -33,51 +32,20 @@ class Prescription extends Model
         "status",
     ];
 
-    protected static function boot()
+    /**
+     * @param int|\App\Models\Prescription $id
+     *
+     * @return \App\Models\PrescriptionHistory|\Illuminate\Database\Eloquent\Model
+     */
+    public static function createFromPrescription($id)
     {
-        parent::boot();
+        $prescription = $id instanceof Prescription ? $id : Prescription::findOrFail($id);
+        $prescription_history = static::make($prescription->attributes);
+        $prescription_history->prescription_id = $prescription->id;
+        $prescription_history->save();
+        $prescription_history->assignProducts($prescription->products->map(fn($product) => $product->pivot->only(['product_id', 'qty']))->toArray());
 
-        static::saving(function (Prescription $model) {
-            if ( !$model->doctor_id ) {
-                $model->doctor_id = auth()->id();
-            }
-            $model->status = static::getStatusId($model->status ?: 'pending')->first();
-        });
-
-        static::updated(function (Prescription $model) {
-            $model->createHistory();
-        });
-
-        static::created(function (Prescription $model) {
-            if ( $pharmacist = $model->pharmacist ) {
-                $pharmacist->notify(new PrescriptionCreated($model, __("Prescription Created"), __("Prescription created please make action")));
-            }
-        });
-    }
-
-    public function createHistory(): PrescriptionHistory
-    {
-        return PrescriptionHistory::createFromPrescription($this);
-    }
-
-    public function doctor()
-    {
-        return $this->belongsTo(User::class, 'doctor_id');
-    }
-
-    public function prescription_histories()
-    {
-        return $this->hasMany(PrescriptionHistory::class);
-    }
-
-    public function pharmacist()
-    {
-        return $this->belongsTo(User::class, 'pharmacist_id');
-    }
-
-    public function patient()
-    {
-        return $this->belongsTo(User::class, 'patient_id');
+        return $prescription_history;
     }
 
     /**
@@ -98,7 +66,27 @@ class Prescription extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_prescription')->withPivot('qty');
+        return $this->belongsToMany(Product::class, 'product_prescription_history')->withPivot('qty');
+    }
+
+    public function prescription()
+    {
+        return $this->belongsTo(Prescription::class, 'prescription_id');
+    }
+
+    public function doctor()
+    {
+        return $this->belongsTo(User::class, 'doctor_id');
+    }
+
+    public function pharmacist()
+    {
+        return $this->belongsTo(User::class, 'pharmacist_id');
+    }
+
+    public function patient()
+    {
+        return $this->belongsTo(User::class, 'patient_id');
     }
 
     public function getDoctorNameAttribute()
@@ -135,31 +123,9 @@ class Prescription extends Model
             $this->patient_id === $user_id;
     }
 
-    public function setAsPending(): bool
+    public function scopeByPrescription(\Illuminate\Database\Eloquent\Builder $query, int $id): \Illuminate\Database\Eloquent\Builder
     {
-        return $this->setStatus('pending')->save();
-    }
-
-    public function setAsCanceled(): bool
-    {
-        $result = $this->setStatus('canceled')->save();
-        if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('Prescription canceled'), __('Prescription canceled')));
-        }
-        return $result;
-    }
-
-    public function setAsFinished(): bool
-    {
-        $result = $this->setStatus('finished')->save();
-        if ( $products = $this->products ) {
-            $products->map(fn($product) => $product->changeQty($product->pivot->qty));
-        }
-
-        if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('Prescription finished'), __('Prescription finished')));
-        }
-        return $result;
+        return $query->where('prescription_id', $id);
     }
 
     public function scopeByPending(\Illuminate\Database\Eloquent\Builder $query, ?string $type = null): \Illuminate\Database\Eloquent\Builder
@@ -221,48 +187,6 @@ class Prescription extends Model
         return $query->whereIn('doctor_id', (array)$id)
             ->orWhereIn('pharmacist_id', (array)$id)
             ->orWhereIn('patient_id', (array)$id);
-    }
-
-
-    /**
-     * @param \App\Models\Prescription $prescription
-     *
-     * @return mixed
-     */
-    public function sendFirebase($title, $body)
-    {
-        $firebaseToken = $this->only(['device_token']);
-
-        $SERVER_API_KEY = config('firebase.api_key');
-
-        $data = [
-            "registration_ids" => $firebaseToken,
-            "notification" => [
-                "title" => $title,
-                "body" => $body,
-            ]
-        ];
-        $dataString = json_encode($data);
-
-        $headers = [
-            'Authorization: key=' . $SERVER_API_KEY,
-            'Content-Type: application/json',
-        ];
-
-        $ch = curl_init();
-
-        curl_setopt($ch, CURLOPT_URL, 'https://fcm.googleapis.com/fcm/send');
-        curl_setopt($ch, CURLOPT_POST, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        /** @noinspection CurlSslServerSpoofingInspection */
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, $dataString);
-
-        $response = curl_exec($ch);
-
-//        dd($response);
-        return $response;
     }
 
 }

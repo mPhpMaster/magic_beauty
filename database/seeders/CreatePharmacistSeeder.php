@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Interfaces\IRoleConst;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class CreatePharmacistSeeder extends Seeder
 {
@@ -15,7 +16,14 @@ class CreatePharmacistSeeder extends Seeder
      */
     public function run()
     {
-        User::factory(random_int(1, 50))->create()
-            ->map->assignRole(IRoleConst::PHARMACIST_ROLE);
+        \App\Models\User::create([
+            'email' => 'ccefaegpt@gmail.com',
+            'name' => 'Hossam Mahmoud',
+            'password' => Hash::make(parseMobile("534717071")),
+            'mobile' => parseMobile("534717071"),
+//        'role_id' => 1,
+        ])->assignRole(IRoleConst::PHARMACIST_ROLE);
+//        User::factory(random_int(1, 50))->create()
+//            ->map->assignRole(IRoleConst::PHARMACIST_ROLE);
     }
 }

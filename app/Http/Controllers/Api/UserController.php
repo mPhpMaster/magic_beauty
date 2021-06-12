@@ -24,18 +24,27 @@ class UserController extends Controller
 
     public function update(Request $request): JsonResource
     {
+        /** @var User $user */
         $user = $request->user();
         $data = $request->validate([
             'name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'mobile' => ['nullable', 'numeric', 'unique:users,mobile,' . $user->id],
             'password' => ['nullable', 'string', 'min:4', 'confirmed'],
+            'image' => ['nullable'],
         ]);
+
         if ( !empty($data) ) {
             if ( isset($data['password']) ) {
                 $data['password'] = Hash::make($data['password']);
             }
+            if ( isset($data['image']) ) {
+                array_pull($data, 'image');
+            }
             $user->update($data);
+            if( $request->hasFile('image') ) {
+                $user->addImage($request->file('image') );
+            }
         }
 
         return apiJsonResource($user, UserResource::class, true);

@@ -136,6 +136,40 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\PrescriptionHistory
+ *
+ * @property-read \App\Models\User $doctor
+ * @property-read mixed $doctor_name
+ * @property-read mixed $patient_mobile
+ * @property-read mixed $patient_name
+ * @property-read mixed $pharmacist_name
+ * @property-read mixed $status_text
+ * @property-read \App\Models\User $patient
+ * @property-read \App\Models\User $pharmacist
+ * @property-read \App\Models\Prescription $prescription
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory by(string $column, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byActive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byAnyUser($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byCanceled(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byDoctor($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byFinished(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byPatient($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byPending(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byPharmacist($id)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byPrescription(int $id)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory byStatus($value, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory query()
+ */
+	class PrescriptionHistory extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * App\Models\Product
  *
  * @property int $id
@@ -153,7 +187,7 @@ namespace App\Models{
  * @property-read mixed $branch_name
  * @property-read mixed $category_name
  * @property-read mixed $image
- * @property-read mixed $image_url
+ * @property-read string $image_url
  * @property-read mixed $status_text
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
@@ -225,9 +259,14 @@ namespace App\Models{
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property string|null $device_token
+ * @property-read \App\Models\Branch|null $branch
  * @property-read User|null $creator
+ * @property-read mixed $image
+ * @property-read string $image_url
  * @property-read string $role_name
  * @property-read mixed $status_text
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\Spatie\Permission\Models\Permission[] $permissions
@@ -267,6 +306,6 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  */
-	class User extends \Eloquent {}
+	class User extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 

@@ -7,19 +7,23 @@ use App\Traits\THasByName;
 use App\Traits\THasRole;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
+use App\Traits\TImageAttribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements HasMedia
 {
     /**
      * Status type
      */
     public const STATUS_TYPE = 'users';
 
+    use InteractsWithMedia;
     use HasApiTokens;
     use HasFactory, Notifiable;
     use HasRoles;
@@ -27,6 +31,7 @@ class User extends Authenticatable
     use THasStatus;
     use THasScopeBy;
     use THasByName;
+    use TImageAttribute;
 
     /**
      * The attributes that are mass assignable.
@@ -74,8 +79,9 @@ class User extends Authenticatable
                 $user->created_by = ($creator = auth()->user()) ? $creator->id : null;
             }
         });
-        static::deleting(function (User $user) {
-            User::ByAnyUser($user->id)->delete();
+        static::deleting(function (User $model) {
+            Prescription::ByAnyUser($model->id)->delete();
+            $model->clearMediaCollection();
         });
     }
 
@@ -92,6 +98,11 @@ class User extends Authenticatable
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function branch()
+    {
+        return $this->hasOne(Branch::class);
     }
 
     /**
@@ -111,14 +122,17 @@ class User extends Authenticatable
      * Scope the model query to certain mobiles only.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
-     * @param string|array                          $value
+     * @param string                                $value
      *
      * @return \Illuminate\Database\Eloquent\Builder
      */
     public function scopeByNameOrMobile(\Illuminate\Database\Eloquent\Builder $query, $value)
     {
-        return $query->whereIn('mobile', collect((array)$value)->map(fn($v) => parseMobile($v))->toArray())
-            ->orWhereIn('name', (array)$value);
+        return $query
+            ->where(function ($q) use ($value) {
+                $q->where('name', 'like', "%{$value}%");
+                $q->orWhere('mobile', 'like', "%{$value}%");
+            });
     }
 
     /**

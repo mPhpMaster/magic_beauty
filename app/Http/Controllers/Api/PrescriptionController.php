@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PrescriptionHistoryResource;
 use App\Http\Resources\PrescriptionResource;
 use App\Interfaces\IRoleConst;
 use App\Models\Prescription;
@@ -11,6 +12,11 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Hash;
 
+/**
+ * Class PrescriptionController
+ *
+ * @package App\Http\Controllers\Api
+ */
 class PrescriptionController extends Controller
 {
     public static function createPrescription(array $data, array $products): JsonResource
@@ -26,6 +32,16 @@ class PrescriptionController extends Controller
             $prescriptions->byStatus(Prescription::getStatusId($status)->first());
         }
         return PrescriptionResource::collection($prescriptions->latest()->get());
+    }
+
+    public function prescription_histories_index(Request $request, Prescription $model): JsonResource
+    {
+       return PrescriptionHistoryResource::collection($model->prescription_histories()->latest()->get());
+    }
+
+    public function pending_index(Request $request): JsonResource
+    {
+        return PrescriptionResource::collection(Prescription::byStatus('pending','prescriptions')->latest()->get());
     }
 
     public function patient_index(Request $request): JsonResource

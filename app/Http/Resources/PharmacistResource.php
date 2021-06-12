@@ -30,6 +30,7 @@ class PharmacistResource extends JsonResource
 //            "role" => $model->roles()->first()->name,
             "email" => $model->email,
             "mobile" => $model->mobile,
+            "image" => $model->image_url ?: "",
             "status" => $model->status_text,
         ];
     }

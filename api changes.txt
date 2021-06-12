@@ -1,0 +1,16 @@
+update profile
+from put to post
+change content type
+add body
+
+update & create doctor
+from put to post
+change content type
+add body
+
+update & create pharmacist
+from put to post
+change content type
+add body
+
+

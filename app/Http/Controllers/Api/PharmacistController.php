@@ -43,12 +43,21 @@ class PharmacistController extends Controller
             'mobile' => ['required', 'numeric', 'unique:users,mobile'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
+            'image' => ['nullable'],
         ]);
         if ( isset($data['password']) ) {
             $data['password'] = Hash::make($data['password']);
         }
+        if ( isset($data['image']) ) {
+            array_pull($data, 'image');
+        }
         $user = User::create($data);
         $user->assignRole(IRoleConst::PHARMACIST_ROLE);
+
+        if( $request->hasFile('image') ) {
+            $user->addImage($request->file('image') );
+        }
+
         return apiJsonResource($user, PharmacistResource::class, true);
     }
 
@@ -62,12 +71,20 @@ class PharmacistController extends Controller
             'mobile' => ['nullable', 'numeric', 'unique:users,mobile,' . $user->id],
             'password' => ['nullable', 'string', 'min:4', 'confirmed'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
+            'image' => ['nullable'],
         ]);
         if ( !empty($data) ) {
             if ( isset($data['password']) ) {
                 $data['password'] = Hash::make($data['password']);
             }
+            if ( isset($data['image']) ) {
+                array_pull($data, 'image');
+            }
             $user->update($data);
+
+            if( $request->hasFile('image') ) {
+                $user->addImage($request->file('image') );
+            }
         }
 
         return apiJsonResource($user, PharmacistResource::class, true);

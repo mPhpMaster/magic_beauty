@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RolesAndPermissionsSeeder::class);
         $this->call(CreateAdminSeeder::class);
 
-        Excel::import(new DoctorsImport(), base_path("doctors_template.xlsx"));
+        Excel::import(new DoctorsImport(),  base_path("doctors_template.xlsx"));
 //        $this->call(CreateDoctorSeeder::class);
         $this->call(CreatePharmacistSeeder::class);
         $this->call(CreatePatientSeeder::class);

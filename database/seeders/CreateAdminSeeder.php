@@ -15,7 +15,6 @@ class CreateAdminSeeder extends Seeder
      */
     public function run()
     {
-
         // Create Support Users
         $support_user = config('app.support_user');
         $user = \App\Models\User::firstOrCreate(array_only($support_user, 'id'), array_except($support_user, ['id']));

@@ -5,11 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class DoctorResource
+ * Class PrescriptionHistoryProductResource
  *
  * @package App\Http\Resources
  */
-class DoctorResource extends JsonResource
+class PrescriptionHistoryProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,18 +20,17 @@ class DoctorResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var \App\Models\User $model */
+        /** @var \App\Models\Product $model */
         $model = $this->resource;
 
         return [
             "id" => $model->id,
+            "category" => $model->category_name,
+            "branch" => $model->branch_name,
             "name" => $model->name,
-//            "role" => $model->role_name,
-//            "role" => $model->roles()->first()->name,
-            "email" => $model->email,
-            "mobile" => $model->mobile,
-            "image" => $model->image_url ?: "",
-            "status" => $model->status_text,
+            "description" => $model->description,
+            "price" => $model->price,
+            "qty" => $model->pivot->qty,
         ];
     }
 }

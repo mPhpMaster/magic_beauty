@@ -15,10 +15,26 @@ class PatientController extends Controller
     public function index(Request $request): JsonResource
     {
         $users = User::onlyPatients();
-        if( $status = $request->get('status') ) {
+        if ( $status = $request->get('status') ) {
             $users->byStatus(User::getStatusId($status)->first());
         }
         return PatientResource::collection($users->latest()->get());
+    }
+
+    public function search_for_patient(Request $request): JsonResource
+    {
+        $data = $request->validate([
+            'keyword' => ['nullable', 'string'],
+        ]);
+
+        $results = User::ByActive('users')->onlyPatients();
+        if ( $data['keyword'] ) {
+            $results = $results->ByNameOrMobile($data['keyword']);
+        }
+
+        return PatientResource::collection($results->latest()->get())->additional([
+            "success" => true,
+        ]);
     }
 
     public function show(Request $request, User $user): JsonResource

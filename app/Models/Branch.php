@@ -37,4 +37,17 @@ class Branch extends Model
             }
         });
     }
+
+    /**
+     * Scope the model query to certain mobiles only.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param string                                $value
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByName(\Illuminate\Database\Eloquent\Builder $query, $value)
+    {
+        return $query->where('name', 'like', "%{$value}%");
+    }
 }

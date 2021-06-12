@@ -58,8 +58,13 @@ if ( !function_exists('parseMobile') ) {
     function parseMobile($mobile)
     {
         $mobile = preg_replace("[\D]", "", $mobile);
+
         if(starts_with($mobile, "00")) {
             $mobile = substr($mobile, 2);
+        }
+
+        if(starts_with($mobile, "5") && strlen($mobile) === 9) {
+            $mobile = "966{$mobile}";
         }
 
         return $mobile;

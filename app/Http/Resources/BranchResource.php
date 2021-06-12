@@ -5,11 +5,11 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * Class DoctorResource
+ * Class BranchResource
  *
  * @package App\Http\Resources
  */
-class DoctorResource extends JsonResource
+class BranchResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -20,17 +20,13 @@ class DoctorResource extends JsonResource
      */
     public function toArray($request)
     {
-        /** @var \App\Models\User $model */
+        /** @var \App\Models\Branch $model */
         $model = $this->resource;
 
         return [
             "id" => $model->id,
             "name" => $model->name,
-//            "role" => $model->role_name,
-//            "role" => $model->roles()->first()->name,
-            "email" => $model->email,
-            "mobile" => $model->mobile,
-            "image" => $model->image_url ?: "",
+            "location" => $model->location,
             "status" => $model->status_text,
         ];
     }
