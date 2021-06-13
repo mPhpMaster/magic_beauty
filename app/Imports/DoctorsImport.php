@@ -25,7 +25,7 @@ class DoctorsImport implements ToCollection
                 'name' => $row[ $head['name'] ],
                 'email' => $row[ $head['email'] ] ?: "d{$index}@mail.com",
                 'mobile' => parseMobile($row[ $head['mobile'] ]),
-                'location' => $row[ $head['location'] ] ?: "",
+                'location' => $row[ $head['location'] ] ?? "",
                 'password' => \Hash::make($row[ $head['password'] ] ?: $row[ $head['mobile'] ]),
             ];
 
