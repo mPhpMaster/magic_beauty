@@ -28,9 +28,9 @@ class ProductController extends Controller
         ]);
 
         $model = Product::query();
-        if ( $branch_id = $request->get('branch_id') ) {
-            $model->byBranch($branch_id);
-        }
+//        if ( $branch_id = $request->get('branch_id') ) {
+//            $model->byBranch($branch_id);
+//        }
         if ( $status = $request->get('status') ) {
             $model->byStatus(Product::getStatusId($status)->first());
         }
@@ -48,23 +48,36 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "branch_id" => ['required', 'integer', 'exists:branches,id'],
             "name" => ['required', 'string', 'unique:products,name'],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
-            "qty" => ['required', 'numeric', 'min:0'],
+            "need_prescription" => ['nullable', 'numeric', 'in:0,1'],
             "status" => ['nullable', 'string', 'in:' . Product::getStatusId()->implode(',')],
             'image' => ['nullable'],
+
+            "branch_id" => ['nullable', 'string'],
+            "qty" => ['required_with:branch_id', 'string'],
         ]);
 
         if ( isset($data['image']) ) {
             array_pull($data, 'image');
         }
 
+        $branches = [];
+        $qtys = [];
+        if ( isset($data['branch_id']) || isset($data['qty']) ) {
+            $branches = explode(",", array_pull($data, 'branch_id', ""));
+            $qtys = explode(",", array_pull($data, 'qty', ""));
+        }
+
         $model = Product::create($data);
 
         if ( $request->hasFile('image') ) {
             $model->addImage($request->file('image'));
+        }
+
+        foreach (array_filter($branches) as $key => $branch_id) {
+            $model->updateQty($branch_id, (double)($qtys[ $key ] ?? 0));
         }
 
         return apiJsonResource($model, ProductResource::class, true);
@@ -76,13 +89,15 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "branch_id" => ['required', 'integer', 'exists:branches,id'],
             "name" => ['required', 'string', 'unique:products,name,' . $model->id],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
-            "qty" => ['required', 'numeric', 'min:0'],
+            "need_prescription" => ['nullable', 'numeric', 'in:0,1'],
             "status" => ['nullable', 'string', 'in:' . Product::getStatusId()->implode(',')],
             'image' => ['nullable'],
+
+            "branch_id" => ['nullable', 'string'],
+            "qty" => ['required_with:branch_id', 'string'],
         ]);
 
         if ( !empty($data) ) {
@@ -90,10 +105,21 @@ class ProductController extends Controller
                 array_pull($data, 'image');
             }
 
+            $branches = [];
+            $qtys = [];
+            if ( isset($data['branch_id']) || isset($data['qty']) ) {
+                $branches = explode(",", array_pull($data, 'branch_id', ""));
+                $qtys = explode(",", array_pull($data, 'qty', ""));
+            }
+
             $model->update($data);
 
             if ( $request->hasFile('image') ) {
                 $model->addImage($request->file('image'));
+            }
+
+            foreach (array_filter($branches) as $key => $branch_id) {
+                $model->updateQty($branch_id, (double)($qtys[ $key ] ?? 0));
             }
         }
 
@@ -131,6 +157,17 @@ class ProductController extends Controller
             "success" => true,
         ]);
     }
+
+//    public function change_qty(Request $request, Product $product): JsonResource
+//    {
+//        $data = $request->validate([
+//            'qty' => ['required', 'numeric'],
+//        ]);
+//        $updated = $product->update($data);
+//        return ProductResource::make($product->refresh())->additional([
+//            "success" => $updated,
+//        ]);
+//    }
 
     public function product_template_excel()
     {

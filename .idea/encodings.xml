@@ -11,6 +11,7 @@
     <file url="file://$PROJECT_DIR$/app/Helpers/global.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Helpers/status.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/BranchController.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/CategoryController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/DoctorController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/LoginController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Api/NotificationController.php" charset="UTF-8" />
@@ -23,6 +24,7 @@
     <file url="file://$PROJECT_DIR$/app/Http/Controllers/Auth/RegisterController.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Kernel.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/BranchResource.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/Http/Resources/CategoryResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/DeviceTokenResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/DoctorResource.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/Http/Resources/LoginResource.php" charset="UTF-8" />
@@ -83,6 +85,9 @@
     <file url="file://$PROJECT_DIR$/database/migrations/2021_04_26_141247_add_column_device_token.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/migrations/2021_06_10_194315_create_prescription_histories_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/migrations/2021_06_10_194316_create_product_prescription_history_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_06_13_103957_create_branch_product_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_06_13_141247_add_column_need_prescription_to_product_table.php" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/database/migrations/2021_06_13_141248_add_column_location_to_user_table.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/BranchSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/CategorySeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/CreateAdminSeeder.php" charset="UTF-8" />

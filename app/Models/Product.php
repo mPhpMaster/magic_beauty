@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Traits\TBelongsToBranch;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use App\Traits\TImageAttribute;
@@ -21,16 +20,17 @@ class Product extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
     use THasStatus, THasScopeBy;
-    use TBelongsToBranch;
+//    use TBelongsToBranch;
     use TImageAttribute;
 
     protected $fillable = [
         "category_id",
-        "branch_id",
+//        "branch_id",
         "name",
         "description",
         "price",
-        "qty",
+//        "qty",
+        "need_prescription",
         "status",
     ];
 
@@ -44,6 +44,16 @@ class Product extends Model implements HasMedia
         static::deleting(function (Product $model) {
             $model->clearMediaCollection();
         });
+        static::created(function (Product $model) {
+            $branches = Branch::pluck('id')->map(fn($branch) => ['branch_id' => $branch, 'qty' => 0]);
+            $model->branches()->sync($branches->toArray());
+        });
+    }
+
+    public function branches()
+    {
+        return $this->belongsToMany(Branch::class, 'branch_product')
+            ->withPivot(['qty']);
     }
 
     public function category()
@@ -61,13 +71,56 @@ class Product extends Model implements HasMedia
         return ($c = $this->category) ? $c->name : "";
     }
 
-    public function changeQty(float $qty = 1): Product
+    /**
+     * @param int|\App\Models\Branch $branch
+     * @param float                  $qty
+     *
+     * @return $this
+     */
+    public function changeQty($branch, float $qty = 1): Product
     {
-        if ( ($this->qty = (float)$this->qty - $qty) < 0 ) {
-            $this->qty = 0;
-        }
-        $this->save();
+        $branch_qty = (double)$this->getQtyForBranch($branch);
 
-        return $this;
+        if ( ($branch_qty = (float)$branch_qty - $qty) < 0 ) {
+            $branch_qty = 0;
+        }
+
+        return $this->updateQty($branch, $branch_qty);
+    }
+
+    /**
+     * @param int|\App\Models\Branch $branch
+     *
+     * @return float
+     */
+    public function getQtyForBranch($branch): float
+    {
+        $branch_id = $branch instanceof Branch ? $branch->id : $branch;
+        if ( $product_branch = $this->branches()->where('branch_id', $branch_id)->first() ) {
+            $branch_qty = (double)$product_branch->pivot->qty;
+        } else {
+            $branch_qty = (double)0;
+        }
+
+        return $branch_qty;
+    }
+
+    /**
+     * @param int|\App\Models\Branch $branch
+     * @param float                  $qty
+     *
+     * @return $this
+     */
+    public function updateQty($branch, float $qty = 0): Product
+    {
+        $branch_id = $branch instanceof Branch ? $branch->id : $branch;
+        $data = [
+            $branch_id => [
+                'qty' => $qty,
+            ],
+        ];
+        $this->branches()->syncWithoutDetaching($data);
+
+        return $this->refresh();
     }
 }

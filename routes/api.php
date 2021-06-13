@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\BranchController;
+use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\PatientController;
@@ -33,7 +34,14 @@ Route::group([
         Route::put('profile', [UserController::class, 'update']);
         Route::get('device_token/{user}', [UserController::class, 'getDeviceToken']);
     });
+
+    Route::post('category/search', [CategoryController::class, 'search_for_category']);
+    Route::post('category/list', [CategoryController::class, 'index']);
+    Route::apiResource('category', CategoryController::class);
+
+    Route::post('product/change_qty/{product}', [ProductController::class, 'change_qty']);
     Route::post('product/search', [ProductController::class, 'search_for_product']);
+    Route::post('product/list', [ProductController::class, 'index']);
     Route::apiResource('product', ProductController::class);
     // tmp link
     Route::get('ten_products', [ProductController::class, 'show_ten_products']);
@@ -42,9 +50,11 @@ Route::group([
 
     Route::post('doctor_import_excel', [DoctorController::class, 'doctor_import_excel']);
     Route::post('doctor/search', [DoctorController::class, 'search_for_doctor']);
+    Route::post('doctor/list', [DoctorController::class, 'index']);
     Route::apiResource('doctor', DoctorController::class);
 
     Route::post('pharmacist/search', [PharmacistController::class, 'search_for_pharmacist']);
+    Route::post('pharmacist/list', [PharmacistController::class, 'index']);
     Route::apiResource('pharmacist', PharmacistController::class);
 
     Route::post('patient/search', [PatientController::class, 'search_for_patient']);
@@ -61,6 +71,7 @@ Route::group([
     Route::apiResource('prescription', PrescriptionController::class);
 
     Route::post('branch/search', [BranchController::class, 'search_for_branch']);
+    Route::post('branch/list', [BranchController::class, 'index']);
     Route::apiResource('branch', BranchController::class);
 
     Route::get('refresh-token', [LoginController::class, 'refreshToken']);

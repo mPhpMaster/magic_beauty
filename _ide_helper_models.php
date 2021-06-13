@@ -26,6 +26,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Branch by(string $column, $value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byActive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Branch byName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byStatus($value, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byUser($user_id)
  * @method static \Database\Factories\BranchFactory factory(...$parameters)
@@ -50,30 +51,30 @@ namespace App\Models{
  * @package App\Models
  * @property int $id
  * @property int $category_id
- * @property int $branch_id
  * @property string $name
  * @property string|null $description
  * @property string|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Branch $branch
  * @property-read \Illuminate\Database\Eloquent\Collection|Category[] $categories
  * @property-read int|null $categories_count
  * @property-read Category $category
- * @property-read mixed $branch_name
+ * @property-read mixed $image
+ * @property-read string $image_url
  * @property-read mixed $status_text
+ * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
+ * @property-read int|null $media_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder|Category by(string $column, $value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byActive(?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Category byBranch($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category byCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byInactive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byStatus($value, $type = null)
  * @method static \Database\Factories\CategoryFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Category query()
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereDescription($value)
@@ -82,7 +83,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  */
-	class Category extends \Eloquent {}
+	class Category extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
 }
 
 namespace App\Models{
@@ -105,6 +106,8 @@ namespace App\Models{
  * @property-read mixed $status_text
  * @property-read \App\Models\User $patient
  * @property-read \App\Models\User $pharmacist
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\PrescriptionHistory[] $prescription_histories
+ * @property-read int|null $prescription_histories_count
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
  * @property-read int|null $products_count
  * @method static \Illuminate\Database\Eloquent\Builder|Prescription by(string $column, $value)
@@ -138,6 +141,15 @@ namespace App\Models{
 /**
  * App\Models\PrescriptionHistory
  *
+ * @property int $id
+ * @property int $prescription_id
+ * @property int $doctor_id
+ * @property int $pharmacist_id
+ * @property int $patient_id
+ * @property string|null $notes
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \App\Models\User $doctor
  * @property-read mixed $doctor_name
  * @property-read mixed $patient_mobile
@@ -164,6 +176,15 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereDoctorId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereNotes($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory wherePatientId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory wherePharmacistId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory wherePrescriptionId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PrescriptionHistory whereUpdatedAt($value)
  */
 	class PrescriptionHistory extends \Eloquent {}
 }
@@ -174,17 +195,16 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $category_id
- * @property int $branch_id
  * @property string $name
  * @property string|null $description
  * @property float|null $price
- * @property float|null $qty
  * @property string|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Branch $branch
+ * @property int|null $need_prescription
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Branch[] $branches
+ * @property-read int|null $branches_count
  * @property-read \App\Models\Category $category
- * @property-read mixed $branch_name
  * @property-read mixed $category_name
  * @property-read mixed $image
  * @property-read string $image_url
@@ -195,21 +215,19 @@ namespace App\Models{
  * @property-read int|null $prescriptions_count
  * @method static \Illuminate\Database\Eloquent\Builder|Product by(string $column, $value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byActive(?string $type = null)
- * @method static \Illuminate\Database\Eloquent\Builder|Product byBranch($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byInactive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byStatus($value, $type = null)
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder|Product query()
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereBranchId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCategoryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereNeedPrescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereQty($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereUpdatedAt($value)
  */

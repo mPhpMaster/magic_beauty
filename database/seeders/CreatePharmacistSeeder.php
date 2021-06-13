@@ -21,6 +21,7 @@ class CreatePharmacistSeeder extends Seeder
             'name' => 'Hossam Mahmoud',
             'password' => Hash::make(parseMobile("534717071")),
             'mobile' => parseMobile("534717071"),
+            'location' => "",
 //        'role_id' => 1,
         ])->assignRole(IRoleConst::PHARMACIST_ROLE);
 //        User::factory(random_int(1, 50))->create()

@@ -24,11 +24,12 @@ class ProductFactory extends Factory
     {
         return [
             'category_id' => ($category = Category::byActive()->inRandomOrder()->first())->id,
-            'branch_id' => $category->branch_id,
+//            'branch_id' => $category->branch_id,
             'name' => $this->faker->unique()->name,
             'description' => $this->faker->text,
             'price' => $this->faker->numberBetween(10, 1000),
-            'qty' => $this->faker->numberBetween(1, 100),
+//            'qty' => $this->faker->numberBetween(1, 100),
+            "need_prescription" => $this->faker->numberBetween(0,1),
             'status' => 'active',
 //            'status' => Product::getStatusId('*')->random(1)->first(),
         ];

@@ -16,11 +16,11 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('category_id');
-            $table->unsignedBigInteger('branch_id');
+//            $table->unsignedBigInteger('branch_id');
             $table->string('name');
             $table->text('description')->nullable();
             $table->double('price')->nullable()->default(0);
-            $table->double('qty')->nullable()->default(0);
+//            $table->double('qty')->nullable()->default(0);
             $table->string('status')->nullable()->default('active');
             $table->timestamps();
         });

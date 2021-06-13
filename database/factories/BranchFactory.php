@@ -26,7 +26,7 @@ class BranchFactory extends Factory
         return [
             'user_id' => User::onlyPharmacists()->byActive()->inRandomOrder()->first()->id,
             'name' => $this->faker->unique()->name,
-            'location' => $this->faker->unique()->latitude,
+            'location' => $this->faker->unique()->streetAddress,
             'status' => 'active',
         ];
     }

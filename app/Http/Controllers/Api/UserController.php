@@ -30,6 +30,7 @@ class UserController extends Controller
             'name' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'mobile' => ['nullable', 'numeric', 'unique:users,mobile,' . $user->id],
+            'location' => ['nullable', 'string'],
             'password' => ['nullable', 'string', 'min:4', 'confirmed'],
             'image' => ['nullable'],
         ]);

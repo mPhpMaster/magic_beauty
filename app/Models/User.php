@@ -44,6 +44,7 @@ class User extends Authenticatable implements HasMedia
         'mobile',
         'password',
         'status',
+        'location',
         'created_by',
         'device_token',
     ];

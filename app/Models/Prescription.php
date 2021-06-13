@@ -101,6 +101,15 @@ class Prescription extends Model
         return $this->belongsToMany(Product::class, 'product_prescription')->withPivot('qty');
     }
 
+    public function getBranch(): ?Branch
+    {
+        if($pharmacist = $this->pharmacist) {
+            return $pharmacist->branch;
+        }
+
+        return null;
+    }
+
     public function getDoctorNameAttribute()
     {
         return ($d = $this->doctor) ? $d->name : "";
@@ -153,7 +162,7 @@ class Prescription extends Model
     {
         $result = $this->setStatus('finished')->save();
         if ( $products = $this->products ) {
-            $products->map(fn($product) => $product->changeQty($product->pivot->qty));
+            $products->map(fn($product) => $product->changeQty($this->getBranch(), $product->pivot->qty));
         }
 
         if ( $doctor = $this->doctor ) {

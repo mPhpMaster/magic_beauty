@@ -38,20 +38,21 @@ class ProductsImport implements ToCollection
                 continue;
             }
 
-            $category = Category::firstOrCreate(['name' => trim($row[ $head["category_name"] ])], ['branch_id' => $branchId, 'category_id' => 0]);
+            $category = Category::firstOrCreate(['name' => trim($row[ $head["category_name"] ])], ['category_id' => 0]);
             try {
                 $product = Product::create([
                     'category_id' => $category ? $category->id : 0,
-                    'branch_id' => $branchId,
+//                    'branch_id' => $branchId,
                     'name' => trim($row[ $head["name"] ]),
                     'description' => trim($row[ $head["description"] ]),
                     'price' => $row[ $head["price"] ],
-                    'qty' => $row[ $head["quantity"] ]
+//                    'qty' => $row[ $head["quantity"] ]
                 ]);
 
                 if ( file_exists($image_path = base_path("products_images/" . ($index + 1) . ".png")) ) {
                     $product->addImage($image_path, true);
                 }
+                $product->updateQty($branchId, (double)$row[ $head["quantity"] ]);
             } catch (\Exception $exception) {
                 dd($exception);
             }
