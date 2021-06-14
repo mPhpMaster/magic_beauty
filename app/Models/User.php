@@ -100,6 +100,14 @@ class User extends Authenticatable implements HasMedia
         return $user->hasRole(IRoleConst::PATIENT_ROLE);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

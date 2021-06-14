@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DoctorController;
+use App\Http\Controllers\Api\FavoriteController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PatientController;
@@ -89,6 +90,10 @@ Route::group([
 
     Route::get('refresh-token', [LoginController::class, 'refreshToken']);
     Route::get('logout', [LoginController::class, 'logout']);
+
+    Route::post('favorite', [FavoriteController::class, 'add_product']);
+    Route::delete('favorite', [FavoriteController::class, 'remove_product']);
+    Route::get('favorite', [FavoriteController::class, 'index']);
 
 
     Route::group([
