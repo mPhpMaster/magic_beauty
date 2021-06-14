@@ -100,6 +100,33 @@ namespace App\Models{
 
 namespace App\Models{
 /**
+ * App\Models\Favorite
+ *
+ * @property int $id
+ * @property int $product_id
+ * @property int $user_id
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Product $product
+ * @property-read \App\Models\User $user
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite by(string $column, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite byProduct($user_id)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite byUser($user_id)
+ * @method static \Database\Factories\FavoriteFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite whereProductId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite whereUpdatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Favorite whereUserId($value)
+ */
+	class Favorite extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
  * Class Order
  *
  * @package App\Models
@@ -378,6 +405,8 @@ namespace App\Models{
  * @property string|null $location
  * @property-read \App\Models\Branch|null $branch
  * @property-read User|null $creator
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Favorite[] $favorites
+ * @property-read int|null $favorites_count
  * @property-read mixed $image
  * @property-read string $image_url
  * @property-read string|null $name
