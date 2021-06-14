@@ -39,7 +39,8 @@ class CategoryController extends Controller
 
         $data = $request->validate([
             "category_id" => ['nullable', 'integer'],
-            "name" => ['required', 'string', 'unique:categories,name'],
+            "name_en" => ['required', 'string', 'unique:categories,name_en'],
+            "name_ar" => ['required', 'string', 'unique:categories,name_ar'],
             "description" => ['nullable', 'string', 'max:255'],
             "status" => ['nullable', 'string', 'in:' . Category::getStatusId()->implode(',')],
             'image' => ['nullable'],
@@ -64,7 +65,8 @@ class CategoryController extends Controller
 
         $data = $request->validate([
             "category_id" => ['nullable', 'integer'],
-            "name" => ['required', 'string', 'unique:categories,name,' . $model->id],
+            "name_en" => ['required', 'string', 'unique:categories,name_en,' . $model->id],
+            "name_ar" => ['required', 'string', 'unique:categories,name_ar,' . $model->id],
             "description" => ['nullable', 'string', 'max:255'],
             "status" => ['nullable', 'string', 'in:' . Category::getStatusId()->implode(',')],
             'image' => ['nullable'],
@@ -97,10 +99,10 @@ class CategoryController extends Controller
         ]);
         $results = Category::byActive();
         if ( $data['keyword'] ) {
-            $results = $results
-                ->where(function ($q) use ($data) {
-                    $q->where('name', 'like', "%{$data['keyword']}%");
-                });
+            $results->ByNames($data['keyword']);
+//                ->where(function ($q) use ($data) {
+//                    $q->where('name', 'like', "%{$data['keyword']}%");
+//                });
         }
 
         return CategoryResource::collection($results->latest()->get())->additional([

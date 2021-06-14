@@ -4,6 +4,8 @@ namespace App\Providers;
 
 use App\Models\Branch;
 use App\Models\Category;
+use App\Models\Order;
+use App\Models\PayType;
 use App\Models\Prescription;
 use App\Models\Product;
 use App\Models\User;
@@ -61,6 +63,8 @@ class RouteServiceProvider extends ServiceProvider
         Route::model('branch', Branch::class);
         Route::model('product', Product::class);
         Route::model('category', Category::class);
+        Route::model('order', Order::class);
+        Route::model('pay_type', PayType::class);
         Route::bind('my_notification', function ($id) {
             return auth()->user()->notifications()->whereKey($id)->firstOrFail();
         });

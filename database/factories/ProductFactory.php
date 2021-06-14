@@ -25,7 +25,8 @@ class ProductFactory extends Factory
         return [
             'category_id' => ($category = Category::byActive()->inRandomOrder()->first())->id,
 //            'branch_id' => $category->branch_id,
-            'name' => $this->faker->unique()->name,
+            'name_en' => $this->faker->unique()->name,
+            'name_ar' => $this->faker->unique()->name,
             'description' => $this->faker->text,
             'price' => $this->faker->numberBetween(10, 1000),
 //            'qty' => $this->faker->numberBetween(1, 100),

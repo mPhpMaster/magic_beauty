@@ -22,7 +22,8 @@ class DoctorsImport implements ToCollection
         $rows->shift();
         $rows->map(function ($row, $index) use ($head) {
             $attributes = [
-                'name' => $row[ $head['name'] ],
+                'name_en' => $row[ $head['name'] ],
+                'name_ar' => $row[ $head['name'] ],
                 'email' => $row[ $head['email'] ] ?: "d{$index}@mail.com",
                 'mobile' => parseMobile($row[ $head['mobile'] ]),
                 'location' => $row[ $head['location'] ] ?? "",

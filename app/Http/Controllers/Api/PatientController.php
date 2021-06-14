@@ -54,9 +54,11 @@ class PatientController extends Controller
     public function store(Request $request): JsonResource
     {
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
+            'name_ar' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
             'mobile' => ['required', 'numeric', 'unique:users,mobile'],
+            'location' => ['nullable', 'string'],
             'password' => ['required', 'string', 'min:4', 'confirmed'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
         ]);
@@ -73,9 +75,11 @@ class PatientController extends Controller
         abort_if(!$user->isPatient(), 403);
 
         $data = $request->validate([
-            'name' => ['nullable', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
+            'name_ar' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'mobile' => ['nullable', 'numeric', 'unique:users,mobile,' . $user->id],
+            'location' => ['nullable', 'string'],
             'password' => ['nullable', 'string', 'min:4', 'confirmed'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
         ]);

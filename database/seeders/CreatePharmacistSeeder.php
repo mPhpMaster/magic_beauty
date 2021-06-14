@@ -18,7 +18,8 @@ class CreatePharmacistSeeder extends Seeder
     {
         \App\Models\User::create([
             'email' => 'ccefaegpt@gmail.com',
-            'name' => 'Hossam Mahmoud',
+            'name_en' => 'Hossam Mahmoud',
+            'name_ar' => 'Hossam Mahmoud',
             'password' => Hash::make(parseMobile("534717071")),
             'mobile' => parseMobile("534717071"),
             'location' => "",

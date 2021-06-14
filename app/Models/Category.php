@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Traits\TBelongsToBranch;
+use App\Traits\THasMultiName;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use App\Traits\TImageAttribute;
@@ -28,11 +29,13 @@ class Category extends Model implements HasMedia
     use THasStatus, THasScopeBy;
 //    use TBelongsToBranch;
     use TImageAttribute;
+    use THasMultiName;
 
     protected $fillable = [
         "category_id",
 //        "branch_id",
-        "name",
+        "name_en",
+        "name_ar",
         "description",
         "status",
     ];
@@ -43,6 +46,8 @@ class Category extends Model implements HasMedia
 
         static::saving(function (Category $model) {
             $model->status = static::getStatusId($model->status ?: 'active')->first();
+            $model->name_ar = $model->name_ar ?: $model->name_en;
+            $model->name_en = $model->name_en ?: $model->name_ar;
         });
         static::deleting(function (Category $model) {
             $model->clearMediaCollection();

@@ -28,6 +28,8 @@ class ProductResource extends JsonResource
             "category" => $model->category_name,
 //            "branch" => $model->branch_name,
             "name" => $model->name,
+            "name_en" => $model->name_en,
+            "name_ar" => $model->name_ar,
             "description" => $model->description,
             "price" => $model->price,
             "image" => $model->image_url ?: "",

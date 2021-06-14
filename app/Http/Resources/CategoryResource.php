@@ -27,6 +27,8 @@ class CategoryResource extends JsonResource
             "id" => $model->id,
 //            "category" => $model->category_name,
             "name" => $model->name,
+            "name_en" => $model->name_en,
+            "name_ar" => $model->name_ar,
             "description" => $model->description,
             "image" => $model->image_url ?: "",
             "status" => $model->status_text,

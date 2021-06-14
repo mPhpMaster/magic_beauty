@@ -4,10 +4,13 @@ use App\Http\Controllers\Api\BranchController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\DoctorController;
 use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\PatientController;
 use App\Http\Controllers\Api\PharmacistController;
 use App\Http\Controllers\Api\PrescriptionController;
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\NotificationController;
 use Illuminate\Support\Facades\Route;
@@ -42,6 +45,7 @@ Route::group([
     Route::post('product/change_qty/{product}', [ProductController::class, 'change_qty']);
     Route::post('product/search', [ProductController::class, 'search_for_product']);
     Route::post('product/list', [ProductController::class, 'index']);
+    Route::post('product/{product}/show', [ProductController::class, 'show']);
     Route::apiResource('product', ProductController::class);
     // tmp link
     Route::get('ten_products', [ProductController::class, 'show_ten_products']);
@@ -70,9 +74,18 @@ Route::group([
     Route::get('prescription/{prescription}/histories', [PrescriptionController::class, 'prescription_histories_index']);
     Route::apiResource('prescription', PrescriptionController::class);
 
+    Route::get('order/success_index', [OrderController::class, 'success_index']);
+    Route::get('order/failed_index', [OrderController::class, 'failed_index']);
+    Route::put('order/{order}/success', [OrderController::class, 'success']);
+    Route::put('order/{order}/failed', [OrderController::class, 'failed']);
+    Route::apiResource('order', OrderController::class);
+
     Route::post('branch/search', [BranchController::class, 'search_for_branch']);
     Route::post('branch/list', [BranchController::class, 'index']);
     Route::apiResource('branch', BranchController::class);
+
+    Route::post('reports/product_qty', [ReportController::class, 'product_qty']);
+    Route::post('reports/prescriptions', [ReportController::class, 'prescriptions']);
 
     Route::get('refresh-token', [LoginController::class, 'refreshToken']);
     Route::get('logout', [LoginController::class, 'logout']);
@@ -93,3 +106,5 @@ Route::group([
 });
 
 Route::post('/login', [LoginController::class, 'login']);
+Route::get('/social_media', [SettingsController::class, 'social_media']);
+Route::get('/support_email', [SettingsController::class, 'support_email']);

@@ -16,17 +16,23 @@ namespace App\Models{
  *
  * @property int $id
  * @property int|null $user_id
- * @property string $name
+ * @property string $name_en
+ * @property string $name_ar
  * @property string|null $location
  * @property string|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $name
  * @property-read mixed $status_text
+ * @property-read string $user_name
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
+ * @property-read int|null $products_count
  * @property-read \App\Models\User|null $user
  * @method static \Illuminate\Database\Eloquent\Builder|Branch by(string $column, $value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byActive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byInactive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Branch byNames($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byStatus($value, $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch byUser($user_id)
  * @method static \Database\Factories\BranchFactory factory(...$parameters)
@@ -36,7 +42,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereLocation($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Branch whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Branch whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Branch whereNameEn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Branch whereUserId($value)
@@ -51,7 +58,8 @@ namespace App\Models{
  * @package App\Models
  * @property int $id
  * @property int $category_id
- * @property string $name
+ * @property string $name_en
+ * @property string $name_ar
  * @property string|null $description
  * @property string|null $status
  * @property \Illuminate\Support\Carbon|null $created_at
@@ -61,6 +69,7 @@ namespace App\Models{
  * @property-read Category $category
  * @property-read mixed $image
  * @property-read string $image_url
+ * @property-read string|null $name
  * @property-read mixed $status_text
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
@@ -70,6 +79,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Category byActive(?string $type = null)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category byName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category byNames($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category byStatus($value, $type = null)
  * @method static \Database\Factories\CategoryFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Category newModelQuery()
@@ -79,11 +90,90 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Category whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Category whereNameEn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Category whereUpdatedAt($value)
  */
 	class Category extends \Eloquent implements \Spatie\MediaLibrary\HasMedia {}
+}
+
+namespace App\Models{
+/**
+ * Class Order
+ *
+ * @package App\Models
+ * @property int $id
+ * @property int|null $pay_type_id
+ * @property int|null $branch_id
+ * @property float|null $sub_total
+ * @property float|null $total
+ * @property string|null $note
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read \App\Models\Branch|null $branch
+ * @property-read mixed $branch_name
+ * @property-read string $pay_type_name
+ * @property-read mixed $status_text
+ * @property-read \App\Models\PayType|null $pay_type
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Product[] $products
+ * @property-read int|null $products_count
+ * @method static \Illuminate\Database\Eloquent\Builder|Order by(string $column, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order byActive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order byBranch($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order byFailed(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order byStatus($value, $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order bySuccess(?string $type = null)
+ * @method static \Database\Factories\OrderFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order query()
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereBranchId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereNote($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order wherePayTypeId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereSubTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereTotal($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereUpdatedAt($value)
+ */
+	class Order extends \Eloquent {}
+}
+
+namespace App\Models{
+/**
+ * Class PayType
+ *
+ * @package App\Models
+ * @property int $id
+ * @property string $name_ar
+ * @property string $name_en
+ * @property string|null $status
+ * @property \Illuminate\Support\Carbon|null $created_at
+ * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property-read string|null $name
+ * @property-read mixed $status_text
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType by(string $column, $value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType byActive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType byName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType byNames($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType byStatus($value, $type = null)
+ * @method static \Database\Factories\PayTypeFactory factory(...$parameters)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType query()
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereCreatedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereNameEn($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereStatus($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|PayType whereUpdatedAt($value)
+ */
+	class PayType extends \Eloquent {}
 }
 
 namespace App\Models{
@@ -195,7 +285,8 @@ namespace App\Models{
  *
  * @property int $id
  * @property int $category_id
- * @property string $name
+ * @property string $name_en
+ * @property string $name_ar
  * @property string|null $description
  * @property float|null $price
  * @property string|null $status
@@ -208,6 +299,7 @@ namespace App\Models{
  * @property-read mixed $category_name
  * @property-read mixed $image
  * @property-read string $image_url
+ * @property-read string|null $name
  * @property-read mixed $status_text
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
  * @property-read int|null $media_count
@@ -215,7 +307,11 @@ namespace App\Models{
  * @property-read int|null $prescriptions_count
  * @method static \Illuminate\Database\Eloquent\Builder|Product by(string $column, $value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byActive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product byCategory($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byInactive(?string $type = null)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product byName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product byNames($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product byProduct($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product byStatus($value, $type = null)
  * @method static \Database\Factories\ProductFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Product newModelQuery()
@@ -225,7 +321,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereDescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|Product whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|Product whereNameEn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereNeedPrescription($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product wherePrice($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Product whereStatus($value)
@@ -266,7 +363,8 @@ namespace App\Models{
  * App\Models\User
  *
  * @property int $id
- * @property string $name
+ * @property string $name_en
+ * @property string $name_ar
  * @property string $email
  * @property string $mobile
  * @property \Illuminate\Support\Carbon|null $email_verified_at
@@ -282,6 +380,7 @@ namespace App\Models{
  * @property-read User|null $creator
  * @property-read mixed $image
  * @property-read string $image_url
+ * @property-read string|null $name
  * @property-read string $role_name
  * @property-read mixed $status_text
  * @property-read \Spatie\MediaLibrary\MediaCollections\Models\Collections\MediaCollection|\Spatie\MediaLibrary\MediaCollections\Models\Media[] $media
@@ -300,6 +399,7 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User byMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User byName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User byNameOrMobile($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User byNames($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User byStatus($value, $type = null)
  * @method static \Database\Factories\UserFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|User newModelQuery()
@@ -320,7 +420,8 @@ namespace App\Models{
  * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereLocation($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereMobile($value)
- * @method static \Illuminate\Database\Eloquent\Builder|User whereName($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNameAr($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereNameEn($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User wherePassword($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereRememberToken($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereStatus($value)

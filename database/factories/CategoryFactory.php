@@ -25,7 +25,8 @@ class CategoryFactory extends Factory
         return [
             'category_id' => 0,
 //            'branch_id' => Branch::byActive()->inRandomOrder()->first()->id,
-            'name' => $this->faker->unique()->name,
+            'name_en' => $this->faker->unique()->name,
+            'name_ar' => $this->faker->unique()->name,
             'description' => $this->faker->text,
             'status' => 'active',
         ];

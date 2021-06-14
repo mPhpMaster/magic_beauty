@@ -6165,6 +6165,17 @@
         {
                         return \Illuminate\Filesystem\Filesystem::hasMacro($name);
         }
+                    /**
+         * Copyright © 2020 mPhpMaster(https://github.com/mPhpMaster) All rights reserved.
+         *
+         * @param mixed $path
+         * @param mixed $extractTo
+         * @static 
+         */ 
+        public static function extractZip($path, $extractTo)
+        {
+                        return \Illuminate\Filesystem\Filesystem::extractZip($path, $extractTo);
+        }
          
     }
             /**
@@ -15119,6 +15130,27 @@
                     /**
          * 
          *
+         * @see \mPhpMaster\Support\mixins\CollectionsMixin::mapKeysToCamelCase()
+         * @static 
+         */ 
+        public static function mapKeysToCamelCase()
+        {
+                        return \Illuminate\Support\Collection::mapKeysToCamelCase();
+        }
+                    /**
+         * 
+         *
+         * @see \mPhpMaster\Support\mixins\CollectionsMixin::mapKeysWith()
+         * @param mixed $callable
+         * @static 
+         */ 
+        public static function mapKeysWith($callable)
+        {
+                        return \Illuminate\Support\Collection::mapKeysWith($callable);
+        }
+                    /**
+         * 
+         *
          * @see \Maatwebsite\Excel\Mixins\DownloadCollection::downloadExcel()
          * @param string $fileName
          * @param string|null $writerType
@@ -15142,6 +15174,35 @@
         public static function storeExcel($filePath, $disk = null, $writerType = null, $withHeadings = false)
         {
                         return \Illuminate\Support\Collection::storeExcel($filePath, $disk, $writerType, $withHeadings);
+        }
+                    /**
+         * 
+         *
+         * @see \mPhpMaster\Support\mixins\GlobInvoke::__invoke()
+         * @param string $pattern
+         * @param int $flags
+         * @return \Illuminate\Support\Collection 
+         * @static 
+         */ 
+        public static function glob($pattern, $flags = 0)
+        {
+                        return \Illuminate\Support\Collection::glob($pattern, $flags);
+        }
+                    /**
+         * Paginate a standard Laravel Collection.
+         *
+         * @mixins Collection
+         * @param int $perPage
+         * @param int $total
+         * @param int $page
+         * @param string $pageName
+         * @return \LengthAwarePaginator 
+         * @see \mPhpMaster\Support\mixins\PaginateInvoke::__invoke()
+         * @static 
+         */ 
+        public static function paginate($perPage = null, $only = [], $pageName = 'page', $page = null, $total = null)
+        {
+                        return \Illuminate\Support\Collection::paginate($perPage, $only, $pageName, $page, $total);
         }
          
     }
@@ -15710,6 +15771,28 @@
         {
                         /** @var \Intervention\Image\ImageManager $instance */
                         return $instance->cache($callback, $lifetime, $returnObj);
+        }
+         
+    }
+     
+}
+
+    namespace Illuminate\Filesystem { 
+            /**
+     * 
+     *
+     */ 
+        class Filesystem {
+                    /**
+         * Copyright © 2020 mPhpMaster(https://github.com/mPhpMaster) All rights reserved.
+         *
+         * @param mixed $path
+         * @param mixed $extractTo
+         * @static 
+         */ 
+        public static function extractZip($path, $extractTo)
+        {
+                        return \Illuminate\Filesystem\Filesystem::extractZip($path, $extractTo);
         }
          
     }

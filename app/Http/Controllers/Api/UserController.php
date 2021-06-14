@@ -27,7 +27,8 @@ class UserController extends Controller
         /** @var User $user */
         $user = $request->user();
         $data = $request->validate([
-            'name' => ['nullable', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
+            'name_ar' => ['nullable', 'string', 'max:255'],
             'email' => ['nullable', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'mobile' => ['nullable', 'numeric', 'unique:users,mobile,' . $user->id],
             'location' => ['nullable', 'string'],

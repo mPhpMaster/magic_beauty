@@ -5,6 +5,10 @@ return [
         "active" => "Active",
         "inactive" => "Inactive",
     ],
+    'orders' => [
+        "success" => "Success",
+        "failed" => "failed",
+    ],
     'prescriptions' => [
         "pending" => "Pending",
         "finished" => "Finished",

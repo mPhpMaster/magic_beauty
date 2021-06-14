@@ -50,7 +50,7 @@ class Prescription extends Model
 
         static::created(function (Prescription $model) {
             if ( $pharmacist = $model->pharmacist ) {
-                $pharmacist->notify(new PrescriptionCreated($model, __("Prescription Created"), __("Prescription created please make action")));
+                $pharmacist->notify(new PrescriptionCreated($model, __("prescriptions.prescription_created"), __("prescriptions.prescription_created_please_make_action")));
             }
         });
     }
@@ -98,7 +98,8 @@ class Prescription extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_prescription')->withPivot('qty');
+        return $this->belongsToMany(Product::class, 'product_prescription')
+            ->withPivot('qty');
     }
 
     public function getBranch(): ?Branch
@@ -153,7 +154,7 @@ class Prescription extends Model
     {
         $result = $this->setStatus('canceled')->save();
         if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('Prescription canceled'), __('Prescription canceled')));
+            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_canceled'), __('prescriptions.prescription_canceled')));
         }
         return $result;
     }
@@ -166,7 +167,7 @@ class Prescription extends Model
         }
 
         if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('Prescription finished'), __('Prescription finished')));
+            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_finished'), __('prescriptions.prescription_finished')));
         }
         return $result;
     }

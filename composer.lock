@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "3f93bb0517ff94b3272d01da7d0a97c0",
+    "content-hash": "769b204d3f864fd8629470a3d1bc796d",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -2054,6 +2054,60 @@
                 }
             ],
             "time": "2020-12-14T13:15:25+00:00"
+        },
+        {
+            "name": "mphpmaster/laravel-helpers",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mPhpMaster/laravel-helpers.git",
+                "reference": "9c5a51c5ec7b6121e651ad2c7407fc41a81a697f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mPhpMaster/laravel-helpers/zipball/9c5a51c5ec7b6121e651ad2c7407fc41a81a697f",
+                "reference": "9c5a51c5ec7b6121e651ad2c7407fc41a81a697f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=5.8",
+                "laravel/helpers": "^1.1",
+                "php": ">=7.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "mPhpMaster\\Support\\Providers\\MPhpMasterHelpersProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "mPhpMaster\\Support\\": "src/"
+                },
+                "files": [
+                    "src/Helpers/Functions.php",
+                    "src/Helpers/Global.functions.php",
+                    "src/Helpers/HelpersLoader.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "mPhpMaster",
+                    "email": "59211285+mPhpMaster@users.noreply.github.com"
+                }
+            ],
+            "description": "Laravel hlaCk helpers",
+            "support": {
+                "issues": "https://github.com/mPhpMaster/laravel-helpers/issues",
+                "source": "https://github.com/mPhpMaster/laravel-helpers/tree/master"
+            },
+            "time": "2020-07-14T10:33:28+00:00"
         },
         {
             "name": "myclabs/php-enum",

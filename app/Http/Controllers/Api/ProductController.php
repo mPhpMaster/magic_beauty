@@ -23,11 +23,15 @@ class ProductController extends Controller
     public function index(Request $request): JsonResource
     {
         $data = $request->validate([
-            'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
+//            'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
             'status' => ['nullable', 'string', 'in:' . Product::getStatusId()->implode(',')],
         ]);
 
         $model = Product::query();
+        if ( $category_id = $request->get('category_id') ) {
+            $model->ByCategory($category_id);
+        }
 //        if ( $branch_id = $request->get('branch_id') ) {
 //            $model->byBranch($branch_id);
 //        }
@@ -48,7 +52,8 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "name" => ['required', 'string', 'unique:products,name'],
+            "name_en" => ['required', 'string', 'unique:products,name_en'],
+            "name_ar" => ['required', 'string', 'unique:products,name_ar'],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
             "need_prescription" => ['nullable', 'numeric', 'in:0,1'],
@@ -89,7 +94,8 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "name" => ['required', 'string', 'unique:products,name,' . $model->id],
+            "name_en" => ['required', 'string', 'unique:products,name_en,' . $model->id],
+            "name_ar" => ['required', 'string', 'unique:products,name_ar,' . $model->id],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
             "need_prescription" => ['nullable', 'numeric', 'in:0,1'],
@@ -136,17 +142,22 @@ class ProductController extends Controller
         $data = $request->validate([
             'keyword' => ['nullable', 'string'],
             'branch_id' => ['nullable', 'integer', 'exists:branches,id'],
+            'category_id' => ['nullable', 'integer', 'exists:categories,id'],
         ]);
         $results = Product::byActive();
         if ( $data['keyword'] ) {
-            $results = $results
-                ->where(function ($q) use ($data) {
-                    $q->where('name', 'like', "%{$data['keyword']}%");
+            $results->ByNames($data['keyword']);
+//                ->where(function ($q) use ($data) {
+//                    $q->where('name', 'like', "%{$data['keyword']}%");
+//
+////                if ( $mobile = parseMobile($data['keyword']) ) {
+////                    $q->orWhere('mobile', 'like', "%{$mobile}%");
+////                }
+//                });
+        }
 
-//                if ( $mobile = parseMobile($data['keyword']) ) {
-//                    $q->orWhere('mobile', 'like', "%{$mobile}%");
-//                }
-                });
+        if ( $category_id = $request->get('category_id') ) {
+            $results->ByCategory($category_id);
         }
 
         if ( isset($data['branch_id']) ) {

@@ -26,6 +26,8 @@ class UserResource extends JsonResource
         return [
             "id" => $model->id,
             "name" => $model->name,
+            "name_en" => $model->name_en,
+            "name_ar" => $model->name_ar,
             "role" => $model->role_name,
 //            "role" => $model->roles()->first()->name,
             "email" => $model->email,

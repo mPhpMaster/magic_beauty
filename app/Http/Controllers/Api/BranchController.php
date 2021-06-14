@@ -61,9 +61,11 @@ class BranchController extends Controller
         abort_if( auth()->user() && !auth()->user()->isAdministrator() && !auth()->user()->isSupport(), 403);
 
         $data = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
+            'name_ar' => ['required', 'string', 'max:255'],
+            'name_en' => ['required', 'string', 'max:255'],
             'location' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
         ]);
 
         $branch = Branch::create($data);
@@ -76,9 +78,11 @@ class BranchController extends Controller
         abort_if( auth()->user() && !auth()->user()->isAdministrator() && !auth()->user()->isSupport(), 403);
 
         $data = $request->validate([
-            'name' => ['nullable', 'string', 'max:255'],
+            'name_ar' => ['nullable', 'string', 'max:255'],
+            'name_en' => ['nullable', 'string', 'max:255'],
             'location' => ['nullable', 'string', 'max:255'],
             'status' => ['nullable', 'string', 'in:active,inactive'],
+            'user_id' => ['nullable', 'integer', 'exists:users,id'],
         ]);
 
         if ( !empty($data) ) {

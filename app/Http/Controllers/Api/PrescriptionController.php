@@ -127,7 +127,8 @@ class PrescriptionController extends Controller
             $data['patient_id'] = $patient->id;
         } else {
             $patient = User::create([
-                'name' => $patient_name,
+                'name_en' => $patient_name,
+                'name_ar' => $patient_name,
                 'email' => snake_case($patient_name) . "@" . snake_case($patient_name) . ".com",
                 'mobile' => $patient_mobile,
                 'password' => Hash::make($patient_mobile),

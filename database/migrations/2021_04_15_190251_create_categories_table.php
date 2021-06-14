@@ -17,7 +17,8 @@ class CreateCategoriesTable extends Migration
             $table->id();
             $table->unsignedBigInteger('category_id');
 //            $table->unsignedBigInteger('branch_id');
-            $table->string('name');
+            $table->string('name_en');
+            $table->string('name_ar');
             $table->text('description')->nullable();
             $table->string('status')->nullable()->default('active');
             $table->timestamps();

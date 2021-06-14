@@ -38,12 +38,18 @@ class ProductsImport implements ToCollection
                 continue;
             }
 
-            $category = Category::firstOrCreate(['name' => trim($row[ $head["category_name"] ])], ['category_id' => 0]);
+            $category = Category::firstOrCreate([
+                'name_en' => trim($row[ $head["category_name"] ]),
+                'name_ar' => trim($row[ $head["category_name_ar"] ]),
+            ], [
+                'category_id' => 0,
+            ]);
             try {
                 $product = Product::create([
                     'category_id' => $category ? $category->id : 0,
 //                    'branch_id' => $branchId,
-                    'name' => trim($row[ $head["name"] ]),
+                    'name_en' => trim($row[ $head["name"] ]),
+                    'name_ar' => trim($row[ $head["name_ar"] ]),
                     'description' => trim($row[ $head["description"] ]),
                     'price' => $row[ $head["price"] ],
 //                    'qty' => $row[ $head["quantity"] ]

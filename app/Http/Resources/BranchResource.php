@@ -26,7 +26,11 @@ class BranchResource extends JsonResource
         return [
             "id" => $model->id,
             "name" => $model->name,
+            "name_en" => $model->name_en,
+            "name_ar" => $model->name_ar,
             "location" => $model->location,
+            "user_id" => (int)$model->user_id,
+            "user" => $model->user_name,
             "status" => $model->status_text,
         ];
     }

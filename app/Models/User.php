@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Interfaces\IRoleConst;
 use App\Traits\THasByName;
+use App\Traits\THasMultiName;
 use App\Traits\THasRole;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
@@ -30,8 +31,8 @@ class User extends Authenticatable implements HasMedia
     use THasRole;
     use THasStatus;
     use THasScopeBy;
-    use THasByName;
     use TImageAttribute;
+    use THasMultiName;
 
     /**
      * The attributes that are mass assignable.
@@ -39,7 +40,8 @@ class User extends Authenticatable implements HasMedia
      * @var array
      */
     protected $fillable = [
-        'name',
+        'name_en',
+        'name_ar',
         'email',
         'mobile',
         'password',
@@ -73,12 +75,14 @@ class User extends Authenticatable implements HasMedia
     {
         parent::boot();
 
-        static::saving(function (User $user) {
-            $user->mobile = parseMobile($user->mobile);
-            $user->status = static::getStatusId($user->status ?: 'active')->first();
-            if ( $user->isPatient() && !$user->created_by ) {
-                $user->created_by = ($creator = auth()->user()) ? $creator->id : null;
+        static::saving(function (User $model) {
+            $model->mobile = parseMobile($model->mobile);
+            $model->status = static::getStatusId($model->status ?: 'active')->first();
+            if ( $model->isPatient() && !$model->created_by ) {
+                $model->created_by = ($creator = auth()->user()) ? $creator->id : null;
             }
+            $model->name_ar = $model->name_ar ?: $model->name_en;
+            $model->name_en = $model->name_en ?: $model->name_ar;
         });
         static::deleting(function (User $model) {
             Prescription::ByAnyUser($model->id)->delete();
@@ -131,7 +135,8 @@ class User extends Authenticatable implements HasMedia
     {
         return $query
             ->where(function ($q) use ($value) {
-                $q->where('name', 'like', "%{$value}%");
+                $q->where('name_en', 'like', "%{$value}%");
+                $q->orWhere('name_ar', 'like', "%{$value}%");
                 $q->orWhere('mobile', 'like', "%{$value}%");
             });
     }

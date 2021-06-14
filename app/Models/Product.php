@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\THasMultiName;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
 use App\Traits\TImageAttribute;
@@ -20,13 +21,16 @@ class Product extends Model implements HasMedia
     use InteractsWithMedia;
     use HasFactory;
     use THasStatus, THasScopeBy;
+
 //    use TBelongsToBranch;
     use TImageAttribute;
+    use THasMultiName;
 
     protected $fillable = [
         "category_id",
 //        "branch_id",
-        "name",
+        "name_en",
+        "name_ar",
         "description",
         "price",
 //        "qty",
@@ -40,6 +44,8 @@ class Product extends Model implements HasMedia
 
         static::saving(function (Product $model) {
             $model->status = static::getStatusId($model->status ?: 'active')->first();
+            $model->name_ar = $model->name_ar ?: $model->name_en;
+            $model->name_en = $model->name_en ?: $model->name_ar;
         });
         static::deleting(function (Product $model) {
             $model->clearMediaCollection();
@@ -123,4 +129,31 @@ class Product extends Model implements HasMedia
 
         return $this->refresh();
     }
+
+    /**
+     * Scope the model query to certain mobiles only.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int|array                             $value
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByCategory(\Illuminate\Database\Eloquent\Builder $query, $value)
+    {
+        return $query->whereIn('category_id', (array)$value);
+    }
+
+    /**
+     * Scope the model query to certain mobiles only.
+     *
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param int|array                             $value
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeByProduct(\Illuminate\Database\Eloquent\Builder $query, $value)
+    {
+        return $query->whereIn('id', (array)$value);
+    }
+
 }

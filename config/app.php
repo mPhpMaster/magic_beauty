@@ -237,7 +237,9 @@ return [
     'support_user' => [
         'id' => 0,
         'email' => 'admin@admin.com',
-        'name' => 'Admin',
+//        'name' => 'Admin',
+        'name_en' => 'Admin',
+        'name_ar' => 'Admin',
         'password' => "admin",
         'mobile' => "966537581003",
 //        'role_id' => 1,
