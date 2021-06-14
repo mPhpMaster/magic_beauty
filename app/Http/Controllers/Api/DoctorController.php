@@ -58,8 +58,8 @@ class DoctorController extends Controller
         $user = User::create($data);
         $user->assignRole(IRoleConst::DOCTOR_ROLE);
 
-        if( $request->hasFile('image') ) {
-            $user->addImage($request->file('image') );
+        if ( $request->hasFile('image') ) {
+            $user->addImage($request->file('image'));
         }
 
         return apiJsonResource($user, DoctorResource::class, true);
@@ -88,8 +88,8 @@ class DoctorController extends Controller
             }
             $user->update($data);
 
-            if( $request->hasFile('image') ) {
-                $user->addImage($request->file('image') );
+            if ( $request->hasFile('image') ) {
+                $user->addImage($request->file('image'));
             }
         }
 
@@ -103,7 +103,7 @@ class DoctorController extends Controller
         ]);
         $results = User::onlyDoctors()
             ->byActive()
-            ->where(function ($q) use($data) {
+            ->where(function ($q) use ($data) {
                 $q->where('name_en', 'like', "%{$data['keyword']}%");
                 $q->orWhere('name_ar', 'like', "%{$data['keyword']}%");
 
@@ -119,7 +119,8 @@ class DoctorController extends Controller
         ]);
     }
 
-    public function doctor_import_excel(Request $request){
+    public function doctor_import_excel(Request $request)
+    {
         $request->validate([
             'excel' => ['required'],
         ]);

@@ -39,7 +39,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -257,8 +257,10 @@ return [
         'users' => ['index', 'add', 'edit', 'show', 'delete'],
         'prescriptions' => ['index', 'add', 'edit', 'show', 'delete'],
         'orders' => ['index', 'add', 'edit', 'show', 'delete'],
+        'pay_types' => ['index', 'add', 'edit', 'show', 'delete'],
         'categories' => ['index', 'add', 'edit', 'show', 'delete'],
         'products' => ['index', 'add', 'edit', 'show', 'delete'],
-        'reports' => ['index', 'add', 'edit', 'show', 'delete'],
+        'branches' => ['index', 'add', 'edit', 'show', 'delete'],
+        'reports' => ['product_qty', 'prescriptions'],
     ],
 ];

@@ -6,6 +6,7 @@ return [
         'instagram' => 'Sharaljamal',
         'twitter' => 'Sharaljamal',
     ],
+
     'support_email' => [
         'support_email' => 'care@sahar.sa'
     ],

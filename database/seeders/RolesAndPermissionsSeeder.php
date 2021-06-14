@@ -3,10 +3,9 @@
 namespace Database\Seeders;
 
 use App\Interfaces\IRoleConst;
-use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Permission;
 use App\Models\Role;
+use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
 use Spatie\Permission\PermissionRegistrar;
 
 class RolesAndPermissionsSeeder extends Seeder
@@ -45,9 +44,50 @@ class RolesAndPermissionsSeeder extends Seeder
         $all_permissions = Permission::all();
         $role_support->givePermissionTo($all_permissions);
         $role_administrator->givePermissionTo($all_permissions);
-        $role_pharmacist->givePermissionTo($permissions_cats->only(['prescriptions'])->flatten(1)->toArray());
-        $role_doctor->givePermissionTo($permissions_cats->only(['prescriptions'])->flatten(1)->toArray());
-        $role_patient->givePermissionTo($permissions_cats->only(['prescriptions.index', 'prescriptions.show', 'categories.index', 'categories.show', 'products.index', 'products.show'])->flatten(1)->toArray());
+
+        $role_pharmacist->givePermissionTo($permissions_cats->only([
+            'prescriptions',
+            'orders',
+            'pay_types.index',
+            'pay_types.show',
+            'categories.index',
+            'categories.show',
+            'branches.index',
+            'branches.show',
+            'branches.edit',
+            'products',
+            'reports',
+        ])->flatten(1)->toArray());
+
+        $role_doctor->givePermissionTo($permissions_cats->only([
+            'prescriptions',
+            'orders',
+            'pay_types.index',
+            'pay_types.show',
+            'categories.index',
+            'categories.show',
+            'branches.index',
+            'branches.show',
+            'products',
+            'reports',
+        ])->flatten(1)->toArray());
+
+        $role_patient->givePermissionTo($permissions_cats->only([
+            'prescriptions.index',
+            'prescriptions.show',
+            'categories.index',
+            'categories.show',
+            'products.index',
+            'products.show',
+            'pay_types.index',
+            'pay_types.show',
+            'orders',
+            'categories.index',
+            'categories.show',
+            'branches.index',
+            'branches.show',
+            'reports',
+        ])->flatten(1)->toArray());
 
         // gets all permissions via Gate::before rule; see AuthServiceProvider
 

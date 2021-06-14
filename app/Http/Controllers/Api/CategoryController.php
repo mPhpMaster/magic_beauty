@@ -8,6 +8,11 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * Class CategoryController
+ *
+ * @package App\Http\Controllers\Api
+ */
 class CategoryController extends Controller
 {
     public function index(Request $request): JsonResource
@@ -17,7 +22,7 @@ class CategoryController extends Controller
             'category_id' => ['nullable', 'int'],
         ]);
 
-        $model = Category::byCategory($request->get('category_id',0));
+        $model = Category::byCategory($request->get('category_id', 0));
         if ( $status = $request->get('status') ) {
             $model->byStatus(Category::getStatusId($status)->first());
         }
