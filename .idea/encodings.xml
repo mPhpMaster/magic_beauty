@@ -119,6 +119,7 @@
     <file url="file://$PROJECT_DIR$/database/seeders/ProductSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/database/seeders/RolesAndPermissionsSeeder.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/public/firebase-messaging-sw.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/public/images/no-image-available.png" charset="windows-1256" />
     <file url="file://$PROJECT_DIR$/resources/js/bootstrap.js" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/lang/en/statuses.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/resources/views/auth/login.blade.php" charset="UTF-8" />

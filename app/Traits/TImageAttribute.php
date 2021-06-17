@@ -9,6 +9,11 @@ namespace App\Traits;
  */
 trait TImageAttribute
 {
+    public static function getDefaultImage(): string
+    {
+        return url("images/no-image-available.png");
+    }
+
     /**
      * @return mixed
      */
@@ -22,7 +27,7 @@ trait TImageAttribute
      */
     public function getImageUrlAttribute()
     {
-        return ($image = $this->image) ? $image->getFullUrl() : "";
+        return ($image = $this->image) ? $image->getFullUrl() : static::getDefaultImage();
     }
 
     /**
