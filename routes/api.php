@@ -110,6 +110,7 @@ Route::group([
 
 });
 
+Route::post('register', [UserController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
 Route::get('/social_media', [SettingsController::class, 'social_media']);
 Route::get('/support_email', [SettingsController::class, 'support_email']);

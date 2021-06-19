@@ -24,7 +24,7 @@ class DeviceTokenResource extends JsonResource
         $model = $this->resource;
 
         return [
-            "device_token" => $model->device_token,
+            "device_token" => $model->device_token ?: "",
         ];
     }
 }

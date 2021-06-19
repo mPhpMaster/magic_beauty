@@ -33,7 +33,7 @@ class UserResource extends JsonResource
             "email" => $model->email,
             "mobile" => $model->mobile,
             "location" => $model->location ?: "",
-            "device_token" => $model->device_token,
+            "device_token" => $model->device_token ?: "",
             "image" => $model->image_url ?: "",
             "status" => $model->status_text,
         ];
