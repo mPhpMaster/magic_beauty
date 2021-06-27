@@ -41,6 +41,7 @@ trait TImageAttribute
      */
     public function addImage($file, $preserving_original = false)
     {
+        $this->clearMediaCollection();
         $media = $this->addMedia($file);
         if ( $preserving_original ) {
             $media = $media->preservingOriginal();
