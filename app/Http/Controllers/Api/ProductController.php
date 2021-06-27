@@ -52,8 +52,8 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "name_en" => ['required', 'string', 'unique:products,name_en'],
-            "name_ar" => ['required', 'string', 'unique:products,name_ar'],
+            "name_en" => ['required', 'string'/*, 'unique:products,name_en'*/],
+            "name_ar" => ['required', 'string'/*, 'unique:products,name_ar'*/],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
             "need_prescription" => ['nullable', 'numeric', 'in:0,1'],
@@ -94,8 +94,8 @@ class ProductController extends Controller
 
         $data = $request->validate([
             "category_id" => ['required', 'integer', 'exists:categories,id'],
-            "name_en" => ['required', 'string', 'unique:products,name_en,' . $model->id],
-            "name_ar" => ['required', 'string', 'unique:products,name_ar,' . $model->id],
+            "name_en" => ['required', 'string'/*, 'unique:products,name_en,' . $model->id*/],
+            "name_ar" => ['required', 'string'/*, 'unique:products,name_ar,' . $model->id*/],
             "description" => ['nullable', 'string', 'max:255'],
             "price" => ['required', 'numeric', 'min:0'],
             "need_prescription" => ['nullable', 'numeric', 'in:0,1'],

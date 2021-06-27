@@ -44,8 +44,8 @@ class CategoryController extends Controller
 
         $data = $request->validate([
             "category_id" => ['nullable', 'integer'],
-            "name_en" => ['required', 'string', 'unique:categories,name_en'],
-            "name_ar" => ['required', 'string', 'unique:categories,name_ar'],
+            "name_en" => ['required', 'string'/*, 'unique:categories,name_en'*/],
+            "name_ar" => ['required', 'string'/*, 'unique:categories,name_ar'*/],
             "description" => ['nullable', 'string', 'max:255'],
             "status" => ['nullable', 'string', 'in:' . Category::getStatusId()->implode(',')],
             'image' => ['nullable'],
@@ -70,8 +70,8 @@ class CategoryController extends Controller
 
         $data = $request->validate([
             "category_id" => ['nullable', 'integer'],
-            "name_en" => ['required', 'string', 'unique:categories,name_en,' . $model->id],
-            "name_ar" => ['required', 'string', 'unique:categories,name_ar,' . $model->id],
+            "name_en" => ['required', 'string'/*, 'unique:categories,name_en,' . $model->id*/],
+            "name_ar" => ['required', 'string'/*, 'unique:categories,name_ar,' . $model->id*/],
             "description" => ['nullable', 'string', 'max:255'],
             "status" => ['nullable', 'string', 'in:' . Category::getStatusId()->implode(',')],
             'image' => ['nullable'],
