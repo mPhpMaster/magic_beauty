@@ -154,7 +154,7 @@ class Prescription extends Model
     {
         $result = $this->setStatus('canceled')->save();
         if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_canceled'), __('prescriptions.prescription_canceled')));
+            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_canceled'), __('prescriptions.prescription_canceled_please_make_action')));
         }
         return $result;
     }
@@ -167,7 +167,7 @@ class Prescription extends Model
         }
 
         if ( $doctor = $this->doctor ) {
-            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_finished'), __('prescriptions.prescription_finished')));
+            $doctor->notify(new PrescriptionFinished($this, __('prescriptions.prescription_finished'), __('prescriptions.prescription_finished_please_make_action')));
         }
         return $result;
     }
