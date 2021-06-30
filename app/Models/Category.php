@@ -51,6 +51,8 @@ class Category extends Model implements HasMedia
         });
         static::deleting(function (Category $model) {
             $model->clearMediaCollection();
+            $model->categories()->update(['category_id' => 0]);
+            $model->products()->update(['category_id' => 0]);
         });
     }
 
