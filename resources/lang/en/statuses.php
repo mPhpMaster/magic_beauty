@@ -6,6 +6,9 @@ return [
         "inactive" => "Inactive",
     ],
     'orders' => [
+        "pending" => "Pending",
+        "finished" => "Finished",
+        "canceled" => "Canceled",
         "success" => "Success",
         "failed" => "failed",
     ],

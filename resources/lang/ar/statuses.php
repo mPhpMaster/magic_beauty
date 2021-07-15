@@ -6,6 +6,9 @@ return [
         "inactive" => "معطل",
     ],
     'orders' => [
+        "pending" => "قيد الإنتظار",
+        "finished" => "منتهي",
+        "canceled" => "ملغي",
         "success" => "ناجح",
         "failed" => "فاشل",
     ],

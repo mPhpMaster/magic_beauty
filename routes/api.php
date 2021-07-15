@@ -77,8 +77,14 @@ Route::group([
 
     Route::get('order/success_index', [OrderController::class, 'success_index']);
     Route::get('order/failed_index', [OrderController::class, 'failed_index']);
+    Route::get('order/finished_index', [OrderController::class, 'finished_index']);
+    Route::get('order/canceled_index', [OrderController::class, 'canceled_index']);
+    Route::get('order/pending_index', [OrderController::class, 'pending_index']);
     Route::put('order/{order}/success', [OrderController::class, 'success']);
     Route::put('order/{order}/failed', [OrderController::class, 'failed']);
+    Route::put('order/{order}/pending', [OrderController::class, 'pending']);
+    Route::put('order/{order}/finished', [OrderController::class, 'finished']);
+    Route::put('order/{order}/canceled', [OrderController::class, 'canceled']);
     Route::apiResource('order', OrderController::class);
 
     Route::post('branch/search', [BranchController::class, 'search_for_branch']);
@@ -94,7 +100,6 @@ Route::group([
     Route::post('favorite', [FavoriteController::class, 'add_product']);
     Route::delete('favorite', [FavoriteController::class, 'remove_product']);
     Route::get('favorite', [FavoriteController::class, 'index']);
-
 
     Route::group([
         'prefix' => 'notifications',

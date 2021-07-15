@@ -30,6 +30,8 @@ class CategoryResource extends JsonResource
             "name_en" => $model->name_en,
             "name_ar" => $model->name_ar,
             "description" => $model->description,
+            "description_en" => $model->description_en,
+            "description_ar" => $model->description_ar,
             "image" => $model->image_url ?: "",
             "status" => $model->status_text,
         ];

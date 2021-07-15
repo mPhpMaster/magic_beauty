@@ -27,7 +27,8 @@ class CategoryFactory extends Factory
 //            'branch_id' => Branch::byActive()->inRandomOrder()->first()->id,
             'name_en' => $this->faker->unique()->name,
             'name_ar' => $this->faker->unique()->name,
-            'description' => $this->faker->text,
+            'description_en' => $this->faker->text,
+            'description_ar' => $this->faker->text,
             'status' => 'active',
         ];
     }

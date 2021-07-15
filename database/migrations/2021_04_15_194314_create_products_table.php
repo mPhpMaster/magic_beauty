@@ -19,7 +19,8 @@ class CreateProductsTable extends Migration
 //            $table->unsignedBigInteger('branch_id');
             $table->string('name_en');
             $table->string('name_ar');
-            $table->text('description')->nullable();
+            $table->text('description_en')->nullable();
+            $table->text('description_ar')->nullable();
             $table->double('price')->nullable()->default(0);
 //            $table->double('qty')->nullable()->default(0);
             $table->string('status')->nullable()->default('active');

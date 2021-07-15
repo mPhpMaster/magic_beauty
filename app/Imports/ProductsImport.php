@@ -37,7 +37,8 @@ class ProductsImport implements ToCollection
             if ( trim($index) === "0" ) {
                 continue;
             }
-
+            $row[ $head["category_name_ar"] ] = $row[ $head["category_name_ar"] ] ?: $row[ $head["category_name"] ];
+            $row[ $head["category_name"] ] = $row[ $head["category_name"] ] ?: $row[ $head["category_name_ar"] ];
             $category = Category::firstOrCreate([
                 'name_en' => trim($row[ $head["category_name"] ]),
                 'name_ar' => trim($row[ $head["category_name_ar"] ]),
@@ -50,7 +51,8 @@ class ProductsImport implements ToCollection
 //                    'branch_id' => $branchId,
                     'name_en' => trim($row[ $head["name"] ]),
                     'name_ar' => trim($row[ $head["name_ar"] ]),
-                    'description' => trim($row[ $head["description"] ]),
+                    'description_en' => trim($row[ $head["description"] ]),
+                    'description_ar' => trim($row[ $head["description_ar"] ]),
                     'price' => $row[ $head["price"] ],
 //                    'qty' => $row[ $head["quantity"] ]
                 ]);

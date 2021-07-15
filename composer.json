@@ -39,7 +39,8 @@
         },
         "files": [
             "app/Helpers/global.php",
-            "app/Helpers/status.php"
+            "app/Helpers/status.php",
+            "app/Helpers/ripcord/ripcord.php"
         ]
     },
     "autoload-dev": {

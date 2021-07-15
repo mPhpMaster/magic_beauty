@@ -31,6 +31,8 @@ class ProductResource extends JsonResource
             "name_en" => $model->name_en,
             "name_ar" => $model->name_ar,
             "description" => $model->description,
+            "description_en" => $model->description_en,
+            "description_ar" => $model->description_ar,
             "price" => $model->price,
             "image" => $model->image_url ?: "",
 //            "qty" => $model->qty,

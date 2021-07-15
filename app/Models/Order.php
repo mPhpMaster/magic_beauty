@@ -49,7 +49,7 @@ class Order extends Model
         parent::boot();
 
         static::saving(function (Order $model) {
-            $model->status = static::getStatusId($model->status ?: 'success')->first();
+            $model->status = static::getStatusId($model->status ?: 'pending')->first();
         });
     }
 
@@ -104,6 +104,21 @@ class Order extends Model
         return $query->byStatus('failed', $type);
     }
 
+    public function scopeByPending(\Illuminate\Database\Eloquent\Builder $query, ?string $type = null): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->byStatus('pending', $type);
+    }
+
+    public function scopeByFinished(\Illuminate\Database\Eloquent\Builder $query, ?string $type = null): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->byStatus('finished', $type);
+    }
+
+    public function scopeByCanceled(\Illuminate\Database\Eloquent\Builder $query, ?string $type = null): \Illuminate\Database\Eloquent\Builder
+    {
+        return $query->byStatus('canceled', $type);
+    }
+
     public function setAsSuccess(): bool
     {
         return $this->setStatus('success')->save();
@@ -112,6 +127,21 @@ class Order extends Model
     public function setAsFailed(): bool
     {
         return $this->setStatus('failed')->save();
+    }
+
+    public function setAsPending(): bool
+    {
+        return $this->setStatus('pending')->save();
+    }
+
+    public function setAsFinished(): bool
+    {
+        return $this->setStatus('finished')->save();
+    }
+
+    public function setAsCanceled(): bool
+    {
+        return $this->setStatus('canceled')->save();
     }
 
     public function getPayTypeNameAttribute(): string

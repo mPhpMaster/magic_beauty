@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\THasMultiDescription;
 use App\Traits\THasMultiName;
 use App\Traits\THasScopeBy;
 use App\Traits\THasStatus;
@@ -11,6 +12,11 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
+/**
+ * Class Product
+ *
+ * @package App\Models
+ */
 class Product extends Model implements HasMedia
 {
     /**
@@ -25,13 +31,18 @@ class Product extends Model implements HasMedia
 //    use TBelongsToBranch;
     use TImageAttribute;
     use THasMultiName;
+    use THasMultiDescription;
 
+    /**
+     * @var string[]
+     */
     protected $fillable = [
         "category_id",
 //        "branch_id",
         "name_en",
         "name_ar",
-        "description",
+        "description_en",
+        "description_ar",
         "price",
 //        "qty",
         "need_prescription",
@@ -46,6 +57,8 @@ class Product extends Model implements HasMedia
             $model->status = static::getStatusId($model->status ?: 'active')->first();
             $model->name_ar = $model->name_ar ?: $model->name_en;
             $model->name_en = $model->name_en ?: $model->name_ar;
+            $model->description_ar = $model->description_ar ?: $model->description_en;
+            $model->description_en = $model->description_en ?: $model->description_ar;
         });
         static::deleting(function (Product $model) {
             $model->clearMediaCollection();
@@ -56,22 +69,34 @@ class Product extends Model implements HasMedia
         });
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function branches()
     {
         return $this->belongsToMany(Branch::class, 'branch_product')
             ->withPivot(['qty']);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
     public function category()
     {
         return $this->belongsTo(Category::class);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
     public function prescriptions()
     {
         return $this->belongsToMany(Prescription::class, 'product_prescription');
     }
 
+    /**
+     * @return mixed|string|null
+     */
     public function getCategoryNameAttribute()
     {
         return ($c = $this->category) ? $c->name : "";

@@ -39,6 +39,21 @@ class OrderController extends Controller
         return OrderResource::collection(Order::ByFailed()->latest()->get());
     }
 
+    public function canceled_index(Request $request): JsonResource
+    {
+        return OrderResource::collection(Order::ByCanceled()->latest()->get());
+    }
+
+    public function finished_index(Request $request): JsonResource
+    {
+        return OrderResource::collection(Order::ByFinished()->latest()->get());
+    }
+
+    public function pending_index(Request $request): JsonResource
+    {
+        return OrderResource::collection(Order::ByPending()->latest()->get());
+    }
+
     public function show(Request $request, Order $model): JsonResource
     {
 //        abort_if(!auth()->user()->isSupport(), 403);
@@ -133,6 +148,27 @@ class OrderController extends Controller
     {
 //        abort_if(!auth()->user()->isSupport(), 403);
         $status = $model->setAsFailed();
+        return apiJsonResource($model->refresh(), OrderResource::class, $status);
+    }
+
+    public function pending(Request $request, Order $model): JsonResource
+    {
+//        abort_if(!auth()->user()->isSupport(), 403);
+        $status = $model->setAsPending();
+        return apiJsonResource($model->refresh(), OrderResource::class, $status);
+    }
+
+    public function finished(Request $request, Order $model): JsonResource
+    {
+//        abort_if(!auth()->user()->isSupport(), 403);
+        $status = $model->setAsFinished();
+        return apiJsonResource($model->refresh(), OrderResource::class, $status);
+    }
+
+    public function canceled(Request $request, Order $model): JsonResource
+    {
+//        abort_if(!auth()->user()->isSupport(), 403);
+        $status = $model->setAsCanceled();
         return apiJsonResource($model->refresh(), OrderResource::class, $status);
     }
 }

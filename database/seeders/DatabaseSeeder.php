@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
 
 //        $this->call(BranchSeeder::class);
         $this->call(CreateBranchSeeder::class);
-        $this->call(CategorySeeder::class);
+//        $this->call(CategorySeeder::class);
         Excel::import(new ProductsImport(), base_path("product_template.xlsx"));
 //        $this->call(ProductSeeder::class);
         $this->call(PrescriptionSeeder::class);
