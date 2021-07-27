@@ -162,11 +162,16 @@ class ProductController extends Controller
             $results->ByCategory($category_id);
         }
 
+        $results = $results->latest()->get();
         if ( isset($data['branch_id']) ) {
-            $results = $results->byBranch($data['branch_id']);
+            $results = $results->map(function($result) use($data) {
+                $qty = $result->getQtyForBranch($data['branch_id']);
+                $result->qty = $qty;
+                return $result;
+            });
         }
 
-        return ProductResource::collection($results->latest()->get())->additional([
+        return ProductResource::collection($results)->additional([
             "success" => true,
         ]);
     }
