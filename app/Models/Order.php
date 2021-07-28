@@ -38,6 +38,7 @@ class Order extends Model
         'sub_total',
         'total',
         'note',
+        'created_by',
         'status',
     ];
 
@@ -50,6 +51,9 @@ class Order extends Model
 
         static::saving(function (Order $model) {
             $model->status = static::getStatusId($model->status ?: 'pending')->first();
+            if ( !$model->created_by ) {
+                $model->created_by = ($creator = auth()->user()) ? $creator->id : null;
+            }
         });
     }
 
@@ -59,6 +63,11 @@ class Order extends Model
     public function pay_type()
     {
         return $this->belongsTo(PayType::class);
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     /**
@@ -76,6 +85,24 @@ class Order extends Model
                 'total',
                 'note',
             ]);
+    }
+
+    /**
+     * @param int|\App\Models\User $user
+     *
+     * @return $this
+     */
+    public function assignCreator($user)
+    {
+        $_user = is_numeric($user) ? User::find($user) : $user;
+//        $_user = $_user ?: User::byMobile($user)->first();
+        $_user = $_user instanceof User ? $_user->id : null;
+        if ( $_user ) {
+            $this->created_by = $_user;
+            $this->save();
+        }
+
+        return $this;
     }
 
     /**
