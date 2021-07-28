@@ -22,7 +22,7 @@ class CreateOrdersTable extends Migration
             $table->double('sub_total')->nullable()->default(0);
             $table->double('total')->nullable()->default(0);
             $table->text('note')->nullable();
-            $table->string('status')->nullable()->default('success');
+            $table->string('status')->nullable()->default('pending');
             $table->timestamps();
         });
     }
