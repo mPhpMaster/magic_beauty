@@ -28,6 +28,7 @@ class PrescriptionResource extends JsonResource
             "date" => $model->created_at->format("Y-m-d h:i a"),
             "doctor" => $model->doctor_name,
             "doctor_id" => $model->doctor_id,
+            "pharmacist_id" => $model->pharmacist_id,
             "pharmacist" => $model->pharmacist_name,
             "patient" => $model->patient_name,
             "patient_mobile" => $model->patient_mobile,

@@ -22,6 +22,9 @@ class BranchResource extends JsonResource
     {
         /** @var \App\Models\Branch $model */
         $model = $this->resource;
+        if( !$model ) {
+            return [];
+        }
 
         return [
             "id" => $model->id,

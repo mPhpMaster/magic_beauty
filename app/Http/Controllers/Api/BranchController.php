@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BranchResource;
 use App\Models\Branch;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -90,5 +91,10 @@ class BranchController extends Controller
         }
 
         return apiJsonResource($model, BranchResource::class, true);
+    }
+
+    public function get_branch_id_by_pharmacist(Request $request, User $model): JsonResource
+    {
+        return apiJsonResource($model->branch ?: [], BranchResource::class, true);
     }
 }

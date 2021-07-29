@@ -87,6 +87,7 @@ Route::group([
     Route::put('order/{order}/canceled', [OrderController::class, 'canceled']);
     Route::apiResource('order', OrderController::class);
 
+    Route::get('branch/user/{pharmacist}', [BranchController::class, 'get_branch_id_by_pharmacist']);
     Route::post('branch/search', [BranchController::class, 'search_for_branch']);
     Route::post('branch/list', [BranchController::class, 'index']);
     Route::apiResource('branch', BranchController::class);

@@ -26,9 +26,11 @@ class OrderController extends Controller
         if ( $status = $request->get('status') ) {
             $orders->byStatus(Order::getStatusId($status)->first());
         }
-        if( ($user = auth()->user()) && !$user->isAdministrator() && !$user->isSupport() ) {
+
+        if ( ($user = auth()->user()) && !$user->isAdministrator() && !$user->isSupport() ) {
             $orders->by('created_by', $user->id);
         }
+
         return OrderResource::collection($orders->latest()->get());
     }
 
